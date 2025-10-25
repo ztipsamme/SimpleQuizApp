@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SimpleQuizApp.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SimpleQuizApp.Views.CreateQuizView"
+             x:DataType="vm:CreateQuizViewModel">
+
+    <StackPanel>
+        <Label>Titel*</Label>
+        <TextBox Text="{Binding Title}" />
+
+        <Label>Fråga*</Label>
+        <TextBox Text="{Binding Statement}" />
+
+        <Label>Rätt svar*</Label>
+        <TextBox Text="{Binding CorrectOption}" />
+
+        <Label>Fel svar*</Label>
+        <TextBox Text="{Binding Option1}" />
+        <TextBox Text="{Binding Option2}" />
+        <TextBox Text="{Binding Option3}" />
+
+        <Button Command="{Binding AddQuestionCommand}">
+            Lägg till
+        </Button>
+        <TextBlock IsVisible="{Binding IsAllFieldsErrorVisible}"
+                   Text="{Binding FieldsErrorMessage}" Foreground="Red" />
+        <TextBlock IsVisible="{Binding IsMaxQuestionsVisible}"
+                   Text="{Binding QuestionsErrorMessage}" Foreground="Red" />
+
+        <ListBox ItemsSource="{Binding Questions}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock>
+                            <Run Text="Fråga: " />
+                            <Run Text="{Binding Statement}" />
+                        </TextBlock>
+
+                        <TextBlock>
+                            <Run Text="Rätt svar: " />
+                            <Run Text="{Binding CorrectOption}" />
+                        </TextBlock>
+
+                        <TextBlock>Fel svar:</TextBlock>
+                        <ItemsControl ItemsSource="{Binding Options}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="• " />
+                                        <Run Text="{Binding .}" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Command="{Binding SaveQuizCommand}">
+            Spara Quiz
+        </Button>
+        <TextBlock IsVisible="{Binding IsMinQuestionsErrorVisible}"
+                   Text="{Binding MinQuestionsErrorMessage}" Foreground="Red" />
+    </StackPanel>
+</UserControl>
