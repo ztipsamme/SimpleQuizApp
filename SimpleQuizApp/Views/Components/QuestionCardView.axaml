@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
+             xmlns:vm="using:SimpleQuizApp.ViewModels.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SimpleQuizApp.Views.Components.QuestionCardView"
+             x:DataType="vm:QuestionCardViewModel">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <!-- Collapsed view -->
+            <components:CardView>
+                <StackPanel IsVisible="{Binding !IsExpanded}">
+                    <Button Content="Redigera"
+                            Command="{Binding EditCommand}"
+                            CommandParameter="{Binding}" />
+
+                    <TextBlock>
+                        <Run Text="Fråga: " />
+                        <Run Text="{Binding Statement}" />
+                    </TextBlock>
+
+                    <TextBlock>
+                        <Run Text="Rätt svar: " />
+                        <Run Text="{Binding CorrectOption}" />
+                    </TextBlock>
+
+                    <TextBlock>Fel svar:</TextBlock>
+                    <StackPanel>
+                        <TextBlock>
+                            <Run Text="• " />
+                            <Run Text="{Binding Option1}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="• " />
+                            <Run Text="{Binding Option2}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="• " />
+                            <Run Text="{Binding Option3}" />
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </components:CardView>
+
+            <!-- Expanded view -->
+            <components:CardView>
+                <StackPanel Spacing="20" IsVisible="{Binding IsExpanded}">
+                    <components:InputFieldView
+                        Label="Fråga*"
+                        Description="Skriv in frågan som ska besvaras."
+                        Text="{Binding Statement, Mode=TwoWay}" />
+
+                    <components:InputFieldView
+                        Label="Rätt svar*"
+                        Description="Ange rätt svar på fråga."
+                        Text="{Binding CorrectOption, Mode=TwoWay}" />
+
+                    <StackPanel Spacing="5">
+                        <Label FontSize="20" FontWeight="Bold">Fel svar*</Label>
+                        <TextBlock Foreground="Gray"
+                                   Text="Ange övriga felaktiga svarsalternativ." />
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option1, Mode=TwoWay}" />
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option2, Mode=TwoWay}" />
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option3, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </components:CardView>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -8,6 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="226e4eaa-8775-4ad7-8ba9-d70d1ea53ff1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/Components/QuestionCardViewModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/avalonia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/avalonia.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpleQuizApp/Models/Quiz.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/Models/Quiz.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml" afterDir="false" />
     </list>
@@ -38,12 +50,23 @@
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Models/Question.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Models/Quiz.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Servises/FileService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/Components/QuestionCardViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/emmaspitz/RiderProjects/SimpleQuizApp/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/EditQuizViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/HomeViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/PlayQuizViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/ViewModels/QuizViewModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/emmaspitz/RiderProjects/SimpleQuizApp/SimpleQuizApp/Views/CreateQuizView.axaml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/EditQuizView.axaml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/EditQuizView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
@@ -53,8 +76,10 @@
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/PlayQuizView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/QuizView.axaml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SimpleQuizApp/Views/QuizView.axaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///var/folders/k5/2p91fyhj20jds2gkpb0rhpyh0000gn/T/SourceGeneratedDocuments/1895FD8AB547C6FC98C9979A/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/SimpleQuizApp.ViewModels.Components.QuestionCardViewModel.g.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///var/folders/k5/2p91fyhj20jds2gkpb0rhpyh0000gn/T/SourceGeneratedDocuments/1895FD8AB547C6FC98C9979A/CommunityToolkit.Mvvm.SourceGenerators/CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator/SimpleQuizApp.ViewModels.CreateQuizViewModel.g.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 1
 }]]></component>
@@ -66,6 +91,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     ".NET Project.SimpleQuizApp.executor": "Run",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -112,13 +138,14 @@
       <option name="presentableId" value="Default" />
       <updated>1756746354953</updated>
       <workItem from="1756746356231" duration="108000" />
-      <workItem from="1761359736663" duration="20046000" />
+      <workItem from="1761359736663" duration="35252000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
