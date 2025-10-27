@@ -19,40 +19,47 @@ public partial class CreateQuizViewModel : ViewModelBase
     [ObservableProperty] private string _option3;
 
     [ObservableProperty]
-    private string _fieldsErrorMessage = "Måste fylla i obligatoriska fält";
+    private string _allFieldsErrorMessage = "Måste fylla i alla obligatoriska fält";
 
     [ObservableProperty]
-    private string _questionsErrorMessage = "Max 10 frågor";
+    private string _allQuestionFieldsErrorMessage = "Måste fylla i alla obligatoriska frågefält";
+
+    [ObservableProperty]
+    private string _maxQuestionsErrorMessage = "Max 10 frågor";
 
     [ObservableProperty]
     private string _minQuestionsErrorMessage = "Måste finnas minst 3 frågor";
 
-    private bool IsAllFilled =>
-        !new[] { Title, Statement, CorrectOption, Option1, Option2, Option3 }
+    private bool IsAllQuestionFieldsFilled =>
+        !new[] { Statement, CorrectOption, Option1, Option2, Option3 }
             .Any(string.IsNullOrWhiteSpace);
 
+    private bool IsAllFieldsFilled => IsAllQuestionFieldsFilled &&
+                                      string.IsNullOrWhiteSpace(Title);
+
     [ObservableProperty] private bool _isAllFieldsErrorVisible;
+    [ObservableProperty] private bool _isAllQuestionFieldsErrorVisible;
     [ObservableProperty] private bool _isMaxQuestionsVisible;
     [ObservableProperty] private bool _isMinQuestionsErrorVisible;
 
     public ObservableCollection<Question> Questions { get; set; } = new();
 
     [RelayCommand]
-    public async void AddQuestion()
+    public async Task AddQuestion()
     {
-        if (!IsAllFilled)
-        {
-            await ShowErrorTemporarilyAsync(
-                () => IsAllFieldsErrorVisible = true,
-                () => IsAllFieldsErrorVisible = false);
-            return;
-        }
-
-        if (Questions.Count == 2)
+        if (Questions.Count == 10)
         {
             await ShowErrorTemporarilyAsync(
                 () => IsMaxQuestionsVisible = true,
                 () => IsMaxQuestionsVisible = false);
+            return;
+        }
+
+        if (!IsAllQuestionFieldsFilled)
+        {
+            await ShowErrorTemporarilyAsync(
+                () => IsAllQuestionFieldsErrorVisible = true,
+                () => IsAllQuestionFieldsErrorVisible = false);
             return;
         }
 
@@ -68,7 +75,7 @@ public partial class CreateQuizViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async void SaveQuiz()
+    public async Task SaveQuiz()
     {
         if (Questions.Count < 3)
         {
@@ -78,12 +85,19 @@ public partial class CreateQuizViewModel : ViewModelBase
             return;
         }
 
+        if (IsAllFieldsFilled)
+        {
+            await ShowErrorTemporarilyAsync(
+                () => IsAllFieldsErrorVisible = true,
+                () => IsAllFieldsErrorVisible = false);
+            return;
+        }
+
         var quiz = new Quiz(Title, Questions);
     }
 
     private void ClearFields()
     {
-        Title = "";
         Statement = "";
         CorrectOption = "";
         Option1 = "";
@@ -91,7 +105,8 @@ public partial class CreateQuizViewModel : ViewModelBase
         Option3 = "";
     }
 
-    private async Task ShowErrorTemporarilyAsync(Action showAction, Action hideAction)
+    private async Task ShowErrorTemporarilyAsync(Action showAction,
+        Action hideAction)
     {
         showAction();
         await Task.Delay(1200);

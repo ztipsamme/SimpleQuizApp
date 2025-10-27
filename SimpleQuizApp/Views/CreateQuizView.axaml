@@ -6,64 +6,115 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SimpleQuizApp.Views.CreateQuizView"
              x:DataType="vm:CreateQuizViewModel">
-
-    <StackPanel>
-        <Label>Titel*</Label>
-        <TextBox Text="{Binding Title}" />
-
-        <Label>Fråga*</Label>
-        <TextBox Text="{Binding Statement}" />
-
-        <Label>Rätt svar*</Label>
-        <TextBox Text="{Binding CorrectOption}" />
-
-        <Label>Fel svar*</Label>
-        <TextBox Text="{Binding Option1}" />
-        <TextBox Text="{Binding Option2}" />
-        <TextBox Text="{Binding Option3}" />
-
-        <Button Command="{Binding AddQuestionCommand}">
-            Lägg till
-        </Button>
-        <TextBlock IsVisible="{Binding IsAllFieldsErrorVisible}"
-                   Text="{Binding FieldsErrorMessage}" Foreground="Red" />
-        <TextBlock IsVisible="{Binding IsMaxQuestionsVisible}"
-                   Text="{Binding QuestionsErrorMessage}" Foreground="Red" />
-
-        <ListBox ItemsSource="{Binding Questions}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock>
-                            <Run Text="Fråga: " />
-                            <Run Text="{Binding Statement}" />
-                        </TextBlock>
-
-                        <TextBlock>
-                            <Run Text="Rätt svar: " />
-                            <Run Text="{Binding CorrectOption}" />
-                        </TextBlock>
-
-                        <TextBlock>Fel svar:</TextBlock>
-                        <ItemsControl ItemsSource="{Binding Options}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <Run Text="• " />
-                                        <Run Text="{Binding .}" />
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20">
+            <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                    CornerRadius="20">
+                <StackPanel Spacing="20">
+                    <TextBlock FontSize="24" FontWeight="Bold">Titel och beskrivning</TextBlock>
+                    <StackPanel Spacing="5">
+                        <Label FontSize="20" FontWeight="Bold">Titel*</Label>
+                        <TextBlock FontSize="16" Foreground="Gray">Vad ska ditt Quiz heta?</TextBlock>
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding 
+                        Title}" />
                     </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                </StackPanel>
+            </Border>
 
-        <Button Command="{Binding SaveQuizCommand}">
-            Spara Quiz
-        </Button>
-        <TextBlock IsVisible="{Binding IsMinQuestionsErrorVisible}"
-                   Text="{Binding MinQuestionsErrorMessage}" Foreground="Red" />
-    </StackPanel>
+            <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                    CornerRadius="20">
+                <StackPanel Spacing="5">
+                    <Label FontSize="20" FontWeight="Bold">Fråga*</Label>
+                    <TextBlock FontSize="16" Foreground="Gray">Skriv in frågan som ska besvaras.</TextBlock>
+                    <TextBox BorderThickness="2" BorderBrush="Black"
+                             CornerRadius="10"
+                             Text="{Binding 
+                    Statement}" />
+                </StackPanel>
+            </Border>
+
+            <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                    CornerRadius="20">
+                <StackPanel Spacing="20">
+                    <StackPanel Spacing="5">
+                        <Label FontSize="20" FontWeight="Bold">Rätt svar*</Label>
+                        <TextBlock FontSize="16" Foreground="Gray">Ange rätt svar på fråga.</TextBlock>
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding 
+                    CorrectOption}" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="5">
+                        <Label FontSize="20" FontWeight="Bold">Fel svar*</Label>
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option1}" />
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option2}" />
+                        <TextBox BorderThickness="2" BorderBrush="Black"
+                                 CornerRadius="10"
+                                 Text="{Binding Option3}" />
+                    </StackPanel>
+
+                    <Button Command="{Binding AddQuestionCommand}">
+                        Lägg till
+                    </Button>
+
+                    <TextBlock
+                        IsVisible="{Binding IsAllQuestionFieldsErrorVisible}"
+                        Text="{Binding AllQuestionFieldsErrorMessage}"
+                        Foreground="Red" />
+                    <TextBlock IsVisible="{Binding IsMaxQuestionsVisible}"
+                               Text="{Binding MaxQuestionsErrorMessage}"
+                               Foreground="Red" />
+                </StackPanel>
+            </Border>
+
+            <ListBox ItemsSource="{Binding Questions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                                <Run Text="Fråga: " />
+                                <Run Text="{Binding Statement}" />
+                            </TextBlock>
+
+                            <TextBlock>
+                                <Run Text="Rätt svar: " />
+                                <Run Text="{Binding CorrectOption}" />
+                            </TextBlock>
+
+                            <TextBlock>Fel svar:</TextBlock>
+                            <ItemsControl
+                                ItemsSource="{Binding Options}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <Run Text="• " />
+                                            <Run Text="{Binding .}" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Command="{Binding SaveQuizCommand}">
+                Spara Quiz
+            </Button>
+            <TextBlock IsVisible="{Binding IsMinQuestionsErrorVisible}"
+                       Text="{Binding MinQuestionsErrorMessage}"
+                       Foreground="Red" />
+            <TextBlock
+                IsVisible="{Binding IsAllFieldsErrorVisible}"
+                Text="{Binding AllFieldsErrorMessage}"
+                Foreground="Red" />
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
