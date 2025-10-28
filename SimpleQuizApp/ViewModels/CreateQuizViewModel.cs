@@ -61,7 +61,7 @@ public partial class CreateQuizViewModel : ViewModelBase
             questionCard.IsExpanded = false;
         }
 
-        QuestionCards.Add(new QuestionCardViewModel { IsExpanded = true });
+        QuestionCards.Add(new QuestionCardViewModel { IsExpanded = true, EditCommand = editQuestionCommand});
     }
 
     [RelayCommand]

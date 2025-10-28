@@ -8,20 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="226e4eaa-8775-4ad7-8ba9-d70d1ea53ff1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/Components/QuestionCardViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/CardView.axaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/ErrorMessageView.axaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/InputFieldView.axaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/Components/QuestionCardView.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/avalonia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/avalonia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleQuizApp/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpleQuizApp/Models/Quiz.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/Models/Quiz.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/ViewModels/CreateQuizViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleQuizApp/Views/CreateQuizView.axaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +126,7 @@
       <option name="presentableId" value="Default" />
       <updated>1756746354953</updated>
       <workItem from="1756746356231" duration="108000" />
-      <workItem from="1761359736663" duration="35252000" />
+      <workItem from="1761359736663" duration="38351000" />
     </task>
     <servers />
   </component>
