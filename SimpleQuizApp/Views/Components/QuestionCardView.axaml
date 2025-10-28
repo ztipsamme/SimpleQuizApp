@@ -10,69 +10,88 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <!-- Collapsed view -->
-            <components:CardView>
-                <StackPanel IsVisible="{Binding !IsExpanded}">
-                    <Button Content="Redigera"
-                            Command="{Binding EditCommand}"
-                            CommandParameter="{Binding}" />
+            <StackPanel IsVisible="{Binding !IsExpanded}">
+                <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                        CornerRadius="20">
+                    <StackPanel Spacing="20">
+                        <Grid ColumnDefinitions="*,Auto"
+                              VerticalAlignment="Center">
+                            <WrapPanel>
+                                <TextBlock FontWeight="Bold" Text="Fråga:"  />
+                                <TextBlock Text="{Binding Statement}" />
+                            </WrapPanel>
 
-                    <TextBlock>
-                        <Run Text="Fråga: " />
-                        <Run Text="{Binding Statement}" />
-                    </TextBlock>
+                            <Button Grid.Column="1" Content="Redigera"
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding}"
+                                    Background="Transparent" FontWeight="Bold"
+                                    Padding="0,20,20,0" Margin="0,-20,-20,0"
+                                    CornerRadius="0,20,0,5" />
+                        </Grid>
 
-                    <TextBlock>
-                        <Run Text="Rätt svar: " />
-                        <Run Text="{Binding CorrectOption}" />
-                    </TextBlock>
+                        <WrapPanel>
+                            <TextBlock FontWeight="Bold" Text="Rätt svar: " />
+                            <TextBlock Text="{Binding CorrectOption}" />
+                        </WrapPanel>
 
-                    <TextBlock>Fel svar:</TextBlock>
-                    <StackPanel>
-                        <TextBlock>
-                            <Run Text="• " />
-                            <Run Text="{Binding Option1}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="• " />
-                            <Run Text="{Binding Option2}" />
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="• " />
-                            <Run Text="{Binding Option3}" />
-                        </TextBlock>
+                        <StackPanel Spacing="5">
+                            <TextBlock FontWeight="Bold">Fel svar:</TextBlock>
+                            <StackPanel>
+                                <TextBlock>
+                                    <Run Text="• " />
+                                    <Run Text="{Binding Option1}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="• " />
+                                    <Run Text="{Binding Option2}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="• " />
+                                    <Run Text="{Binding Option3}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </components:CardView>
+                </Border>
+            </StackPanel>
 
             <!-- Expanded view -->
-            <components:CardView>
-                <StackPanel Spacing="20" IsVisible="{Binding IsExpanded}">
-                    <components:InputFieldView
-                        Label="Fråga*"
-                        Description="Skriv in frågan som ska besvaras."
-                        Text="{Binding Statement, Mode=TwoWay}" />
+            <StackPanel Spacing="20" IsVisible="{Binding IsExpanded}">
+                <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                        CornerRadius="20">
+                    <StackPanel Spacing="20">
+                        <components:InputFieldView
+                            Label="Fråga*"
+                            Description="Skriv in frågan som ska besvaras."
+                            Text="{Binding Statement, Mode=TwoWay}" />
 
-                    <components:InputFieldView
-                        Label="Rätt svar*"
-                        Description="Ange rätt svar på fråga."
-                        Text="{Binding CorrectOption, Mode=TwoWay}" />
+                        <components:InputFieldView
+                            Label="Rätt svar*"
+                            Description="Ange rätt svar på fråga."
+                            Text="{Binding CorrectOption, Mode=TwoWay}" />
 
-                    <StackPanel Spacing="5">
-                        <Label FontSize="20" FontWeight="Bold">Fel svar*</Label>
-                        <TextBlock Foreground="Gray"
-                                   Text="Ange övriga felaktiga svarsalternativ." />
-                        <TextBox BorderThickness="2" BorderBrush="Black"
-                                 CornerRadius="10"
-                                 Text="{Binding Option1, Mode=TwoWay}" />
-                        <TextBox BorderThickness="2" BorderBrush="Black"
-                                 CornerRadius="10"
-                                 Text="{Binding Option2, Mode=TwoWay}" />
-                        <TextBox BorderThickness="2" BorderBrush="Black"
-                                 CornerRadius="10"
-                                 Text="{Binding Option3, Mode=TwoWay}" />
+                        <StackPanel Spacing="5">
+                            <Label FontSize="20" FontWeight="Bold">Fel svar*</Label>
+                            <TextBlock Foreground="Gray"
+                                       Text="Ange övriga felaktiga svarsalternativ." />
+                            <TextBox BorderThickness="2" BorderBrush="Black"
+                                     CornerRadius="10"
+                                     Text="{Binding Option1, Mode=TwoWay}" />
+                            <TextBox BorderThickness="2" BorderBrush="Black"
+                                     CornerRadius="10"
+                                     Text="{Binding Option2, Mode=TwoWay}" />
+                            <TextBox BorderThickness="2" BorderBrush="Black"
+                                     CornerRadius="10"
+                                     Text="{Binding Option3, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <components:VariantButton Content="Ta bort"
+                                                  Color="Danger"
+                                                  Command="{Binding RemoveCommand}"
+                                                  HorizontalAlignment="Left" />
                     </StackPanel>
-                </StackPanel>
-            </components:CardView>
+                </Border>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

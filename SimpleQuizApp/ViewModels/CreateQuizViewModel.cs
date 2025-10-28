@@ -37,12 +37,10 @@ public partial class CreateQuizViewModel : ViewModelBase
 
     public CreateQuizViewModel()
     {
-        var childVM = new QuestionCardViewModel
-        {
-            IsExpanded = true,
-            EditCommand = EditQuestionCommand,
-        };
-        QuestionCards.Add(childVM);
+        var childVm =
+            new QuestionCardViewModel(EditQuestionCommand,
+                RemoveQuestionCommand);
+        QuestionCards.Add(childVm);
     }
 
     [RelayCommand]
@@ -61,7 +59,8 @@ public partial class CreateQuizViewModel : ViewModelBase
             questionCard.IsExpanded = false;
         }
 
-        QuestionCards.Add(new QuestionCardViewModel { IsExpanded = true, EditCommand = editQuestionCommand});
+        QuestionCards.Add(new QuestionCardViewModel(EditQuestionCommand,
+            RemoveQuestionCommand));
     }
 
     [RelayCommand]
@@ -71,6 +70,12 @@ public partial class CreateQuizViewModel : ViewModelBase
             q.IsExpanded = false;
 
         question.IsExpanded = true;
+    }
+
+    [RelayCommand]
+    private void RemoveQuestion(QuestionCardViewModel question)
+    {
+        QuestionCards.Remove(question);
     }
 
     [RelayCommand]

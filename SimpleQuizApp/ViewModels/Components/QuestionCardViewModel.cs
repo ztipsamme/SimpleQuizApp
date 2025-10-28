@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -16,5 +14,12 @@ public partial class QuestionCardViewModel : ViewModelBase
     [ObservableProperty] private bool _isExpanded;
 
     public ICommand? EditCommand { get; set; }
-    public ICommand? SaveCommand { get; set; }
+    public ICommand? RemoveCommand { get; set; }
+
+    public QuestionCardViewModel(ICommand editCommand, ICommand removeCommand)
+    {
+        IsExpanded = true;
+        EditCommand = editCommand;
+        RemoveCommand = removeCommand;
+    }
 }

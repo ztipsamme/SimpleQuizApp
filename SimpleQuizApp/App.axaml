@@ -27,5 +27,6 @@
   
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://SimpleQuizApp/Styles/VariantButtonStyles.axaml"/>
     </Application.Styles>
 </Application>
