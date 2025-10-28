@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
+using SimpleQuizApp.Servises;
 using SimpleQuizApp.ViewModels.Components;
 
 namespace SimpleQuizApp.ViewModels;
@@ -118,7 +117,7 @@ public partial class CreateQuizViewModel : ViewModelBase
             q.CorrectOption, q.Option1, q.Option2, q.Option3)
         ).ToList();
 
-        var quiz = new Quiz(Title, questions);
+        await FileService.WriteJsonFile(new Quiz(Title, questions));
     }
 
     private async Task ShowErrorTemporarilyAsync(Action showAction,

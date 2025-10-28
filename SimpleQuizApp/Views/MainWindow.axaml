@@ -24,6 +24,6 @@
         </StackPanel>
 
         <!-- Här visas den aktiva vyn -->
-        <ContentControl Content="{Binding CurrentView}"/>
+        <ContentControl Content="{Binding CurrentView}" />
     </DockPanel>
 </Window>
