@@ -17,6 +17,7 @@ namespace SimpleQuizApp.ViewModels;
 public partial class CreateQuizViewModel : ViewModelBase
 {
     [ObservableProperty] private string _title;
+    [ObservableProperty] private string _category;
     [ObservableProperty] private string _tempCoverImagePath;
     [ObservableProperty] private string _coverImageFileName;
 
@@ -40,6 +41,7 @@ public partial class CreateQuizViewModel : ViewModelBase
     [ObservableProperty] private bool _isAllQuestionFieldsErrorVisible;
     [ObservableProperty] private bool _isMaxQuestionsVisible;
     [ObservableProperty] private bool _isMinQuestionsErrorVisible;
+    [ObservableProperty] private bool _hasCoverImage;
 
     public CreateQuizViewModel(MainWindowViewModel main) : base(main)
     {
@@ -70,8 +72,17 @@ public partial class CreateQuizViewModel : ViewModelBase
         if (res != null && res.Length > 0)
         {
             TempCoverImagePath = res[0];
-            CoverImageFileName = Path.GetFileName(res[0]); // visas i UI
+            CoverImageFileName = Path.GetFileName(res[0]);
+            HasCoverImage = true;
         }
+    }
+
+    [RelayCommand]
+    public async Task RemoveCoverImage()
+    {
+        TempCoverImagePath = default;
+        CoverImageFileName = default;
+        HasCoverImage = false;
     }
 
     [RelayCommand]
@@ -156,7 +167,7 @@ public partial class CreateQuizViewModel : ViewModelBase
             new List<string>() { q.Option1, q.Option2, q.Option3 })
         ).ToList();
 
-        await FileService.WriteJsonFile(new Quiz(Title, CoverImageFileName,
+        await FileService.WriteJsonFile(new Quiz(Title, Category, CoverImageFileName,
             questions));
         
         Main.NavigateTo(new HomeViewModel(Main));

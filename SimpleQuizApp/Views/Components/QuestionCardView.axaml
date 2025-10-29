@@ -87,9 +87,10 @@
 
                         <components:VariantButton Content="Ta bort"
                                                   Color="Danger"
+                                                  Size="Small"
                                                   Command="{Binding RemoveCommand}"
                                                   CommandParameter="{Binding}"
-                                                  HorizontalAlignment="Left" />
+                                                  HorizontalAlignment="Right" />
                     </StackPanel>
                 </Border>
             </StackPanel>
