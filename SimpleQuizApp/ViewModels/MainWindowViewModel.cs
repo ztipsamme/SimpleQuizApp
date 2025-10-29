@@ -14,7 +14,11 @@ public partial class MainWindowViewModel : ViewModelBase
     }
     
     [RelayCommand]
-    private void ShowCreateQuizView() => CurrentView = new CreateQuizViewModel();
+    private void HomeView() => CurrentView = new HomeViewModel();
+
+    [RelayCommand]
+    private void ShowCreateQuizView() =>
+        CurrentView = new CreateQuizViewModel();
     [RelayCommand]
     private void ShowEditQuizView() => CurrentView = new EditQuizViewModel();
     [RelayCommand]

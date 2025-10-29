@@ -24,10 +24,10 @@ public static class FileService
     public static async Task WriteJsonFile(Quiz quiz)
     {
         List<Quiz> quizzes = new();
+        
         if (File.Exists(Path))
         {
-            var res = await ReadJsonFile();
-            quizzes = res;
+            quizzes = await ReadJsonFile();
         }
 
         quizzes.Add(quiz);

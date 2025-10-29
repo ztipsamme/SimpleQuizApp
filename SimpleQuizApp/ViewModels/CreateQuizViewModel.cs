@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ public partial class CreateQuizViewModel : ViewModelBase
 {
     [ObservableProperty] private string _title;
 
-    public ObservableCollection<QuestionCardViewModel> QuestionCards { get; } =
+    [ObservableProperty]
+    private ObservableCollection<QuestionCardViewModel> _questionCards =
         new();
 
     [ObservableProperty] private string _isValidErrorMessage =
@@ -114,7 +116,8 @@ public partial class CreateQuizViewModel : ViewModelBase
         }
 
         var questions = QuestionCards.Select(q => new Question(q.Statement,
-            q.CorrectOption, q.Option1, q.Option2, q.Option3)
+            q.CorrectOption,
+            new List<string>() { q.Option1, q.Option2, q.Option3 })
         ).ToList();
 
         await FileService.WriteJsonFile(new Quiz(Title, questions));

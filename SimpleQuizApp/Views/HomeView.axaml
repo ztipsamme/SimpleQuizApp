@@ -2,7 +2,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleQuizApp.ViewModels"
+             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SimpleQuizApp.Views.HomeView">
-    Welcome to Avalonia!
+             x:Class="SimpleQuizApp.Views.HomeView"
+             x:DataType="vm:HomeViewModel">
+    <StackPanel>
+        <ItemsControl ItemsSource="{Binding Quizzes}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Grid ColumnDefinitions="*, Auto"
+                              RowDefinitions="*, Auto, Auto">
+                            <Rectangle Grid.ColumnSpan="2" Grid.Row="0" />
+                            <TextBlock Grid.Column="0" Grid.Row="1"
+                                       Text="Quiz title" />
+                            <TextBlock Grid.Column="0" Grid.Row="2"
+                                       Text="Some Name" />
+                            <TextBlock Grid.Column="1" Grid.Row="1"
+                                       Grid.RowSpan="2" Text="XP 40" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SimpleQuizApp.Models;
 
@@ -12,8 +13,9 @@ public class Question
     
     public string ImagePath { get; set; }
 
+    [JsonConstructor]
     public Question(string statement, string correctOption,
-        params string[] options)
+        List<string> options)
     {
         Statement = statement;
         CorrectOption = correctOption;

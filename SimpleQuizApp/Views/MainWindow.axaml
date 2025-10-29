@@ -18,6 +18,7 @@
     <DockPanel>
         <!-- Navigeringsknappar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+            <Button Content="Hem" Command="{Binding HomeViewCommand}" Margin="5"/>
             <Button Content="Skapa Quiz" Command="{Binding ShowCreateQuizViewCommand}" Margin="5"/>
             <Button Content="Redigera Quiz" Command="{Binding ShowEditQuizViewCommand}" Margin="5"/>
             <Button Content="Spela Quiz" Command="{Binding ShowPlayQuizViewCommand}" Margin="5"/>
