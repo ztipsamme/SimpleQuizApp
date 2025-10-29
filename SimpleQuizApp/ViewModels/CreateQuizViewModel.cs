@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
@@ -14,6 +17,8 @@ namespace SimpleQuizApp.ViewModels;
 public partial class CreateQuizViewModel : ViewModelBase
 {
     [ObservableProperty] private string _title;
+    [ObservableProperty] private string _tempCoverImagePath;
+    [ObservableProperty] private string _coverImageFileName;
 
     [ObservableProperty]
     private ObservableCollection<QuestionCardViewModel> _questionCards =
@@ -36,12 +41,37 @@ public partial class CreateQuizViewModel : ViewModelBase
     [ObservableProperty] private bool _isMaxQuestionsVisible;
     [ObservableProperty] private bool _isMinQuestionsErrorVisible;
 
-    public CreateQuizViewModel()
+    public CreateQuizViewModel(MainWindowViewModel main) : base(main)
     {
         var childVm =
             new QuestionCardViewModel(EditQuestionCommand,
                 RemoveQuestionCommand);
         QuestionCards.Add(childVm);
+    }
+
+    [RelayCommand]
+    public async Task SelectCoverImage()
+    {
+        var dlg = new OpenFileDialog();
+
+        dlg.Filters.Add(new FileDialogFilter
+            { Name = "Images", Extensions = { "png", "jpg", "jpeg" } });
+        dlg.AllowMultiple = false;
+
+        var window =
+            App.Current.ApplicationLifetime is
+                IClassicDesktopStyleApplicationLifetime
+                desktop
+                ? desktop.MainWindow
+                : null;
+
+        var res = await dlg.ShowAsync(window);
+
+        if (res != null && res.Length > 0)
+        {
+            TempCoverImagePath = res[0];
+            CoverImageFileName = Path.GetFileName(res[0]); // visas i UI
+        }
     }
 
     [RelayCommand]
@@ -98,6 +128,12 @@ public partial class CreateQuizViewModel : ViewModelBase
             return;
         }
 
+
+        if (!string.IsNullOrWhiteSpace(CoverImageFileName))
+        {
+            FileService.SaveImage(CoverImageFileName, TempCoverImagePath);
+        }
+
         foreach (var q in QuestionCards)
         {
             string[] question =
@@ -120,7 +156,10 @@ public partial class CreateQuizViewModel : ViewModelBase
             new List<string>() { q.Option1, q.Option2, q.Option3 })
         ).ToList();
 
-        await FileService.WriteJsonFile(new Quiz(Title, questions));
+        await FileService.WriteJsonFile(new Quiz(Title, CoverImageFileName,
+            questions));
+        
+        Main.NavigateTo(new HomeViewModel(Main));
     }
 
     private async Task ShowErrorTemporarilyAsync(Action showAction,

@@ -17,7 +17,7 @@
                           IsVisible="{Binding HasQuizzes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel />
+                        <UniformGrid Columns="3" ColumnSpacing="10" RowSpacing="10"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 

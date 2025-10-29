@@ -1,6 +1,8 @@
 namespace SimpleQuizApp.ViewModels;
 
-public class PlayQuizViewModel
+public partial class PlayQuizViewModel: ViewModelBase
 {
-    
+    public PlayQuizViewModel(MainWindowViewModel main) : base(main)
+    {
+    }
 }

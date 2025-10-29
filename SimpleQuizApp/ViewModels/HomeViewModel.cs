@@ -1,10 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using SimpleQuizApp.Models;
 using SimpleQuizApp.Servises;
 using SimpleQuizApp.ViewModels.Components;
-using SimpleQuizApp.Views.Components;
 
 namespace SimpleQuizApp.ViewModels;
 
@@ -16,7 +14,7 @@ public partial class HomeViewModel : ViewModelBase
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _hasQuizzes;
 
-    public HomeViewModel()
+    public HomeViewModel(MainWindowViewModel main) : base(main)
     {
         _ = LoadDataAsync();
     }
@@ -29,7 +27,7 @@ public partial class HomeViewModel : ViewModelBase
         var data = await FileService.ReadJsonFile();
 
         foreach (var q in data)
-            QuizCards.Add(new QuizCardViewModel(q.Title, q.Questions));
+            QuizCards.Add(new QuizCardViewModel(q, Main));
 
         if (QuizCards.Count > 0)
         {

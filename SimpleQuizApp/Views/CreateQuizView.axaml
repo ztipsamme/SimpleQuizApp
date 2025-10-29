@@ -25,6 +25,17 @@
                             Label="Titel*"
                             Description="Vad ska ditt Quiz heta?"
                             Text="{Binding Title, Mode=TwoWay}" />
+
+                        <StackPanel Spacing="5">
+                            <Label FontSize="20" FontWeight="Bold"
+                                   Content="Omslagsbild" />
+                            <TextBlock
+                                Text="Ladda upp en omslagsbild för ditt Quiz."
+                                Foreground="Gray" />
+                            <TextBlock Text="{Binding CoverImageFileName}" />
+                            <Button Content="Ladda upp"
+                                    Command="{Binding SelectCoverImageCommand}" />
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </StackPanel>

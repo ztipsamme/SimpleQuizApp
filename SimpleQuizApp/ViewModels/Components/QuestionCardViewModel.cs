@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SimpleQuizApp.ViewModels.Components;
 
-public partial class QuestionCardViewModel : ViewModelBase
+public partial class QuestionCardViewModel : ObservableObject
 {
     [ObservableProperty] private string _statement;
     [ObservableProperty] private string _correctOption;

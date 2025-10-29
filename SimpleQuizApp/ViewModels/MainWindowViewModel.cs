@@ -3,24 +3,30 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace SimpleQuizApp.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private object _currentView;
-    
+    [ObservableProperty] private ViewModelBase _currentView;
+
+    public HomeViewModel HomeVm { get; }
+    public CreateQuizViewModel CreateQuizVm { get; }
+
     public MainWindowViewModel()
     {
-        CurrentView = new HomeViewModel();
+        HomeVm = new HomeViewModel(this);
+        CreateQuizVm = new CreateQuizViewModel(this);
+
+        CurrentView = HomeVm;
     }
-    
+
     [RelayCommand]
-    private void HomeView() => CurrentView = new HomeViewModel();
+    private void HomeView() => CurrentView = HomeVm;
 
     [RelayCommand]
     private void ShowCreateQuizView() =>
-        CurrentView = new CreateQuizViewModel();
-    [RelayCommand]
-    private void ShowEditQuizView() => CurrentView = new EditQuizViewModel();
-    [RelayCommand]
-    private void ShowPlayQuizView() => CurrentView = new PlayQuizViewModel();
+        CurrentView = CreateQuizVm;
+
+    public void NavigateTo(ViewModelBase viewModel)
+    {
+        CurrentView = viewModel;
+    }
 }
