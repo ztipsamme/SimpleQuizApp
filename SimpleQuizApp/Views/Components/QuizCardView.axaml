@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
              xmlns:vm="using:SimpleQuizApp.ViewModels.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SimpleQuizApp.Views.Components.QuizCardView"
@@ -12,16 +11,32 @@
             BorderThickness="0"
             Padding="0"
             CornerRadius="20"
-            Classes="flat"
-            Cursor="Hand">
+            Cursor="Hand"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
         <Border BorderThickness="2" BorderBrush="Black" Padding="10"
                 CornerRadius="20" ClipToBounds="True" x:Name="QuizCard">
             <Grid ColumnDefinitions="*, Auto"
                   RowDefinitions="7*, 3*" ColumnSpacing="10" RowSpacing="5">
-                <Image Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
-                       Source="{Binding CoverImageSrc}"
-                       Stretch="UniformToFill"
-                       Margin="-10, -10, -10, 0" />
+                <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                        CornerRadius="20,20,0,0"
+                        ClipToBounds="True" Margin="-10, -10, -10, 0">
+                    <Grid HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                        <Image
+                            Source="{Binding CoverImageSrc}"
+                            Stretch="UniformToFill"
+                            IsVisible="{Binding HasImage}" 
+                            Margin="0"/>
+                        <Rectangle
+                            Fill="hsla(61, 78%, 46%, 1)"
+                            IsVisible="{Binding !HasImage}"
+                            Stretch="UniformToFill"
+                            Margin="0"
+                          />
+                    </Grid>
+                </Border>
+
                 <TextBlock Grid.Column="0" Grid.Row="1"
                            Text="{Binding Title}" FontWeight="Bold"
                            VerticalAlignment="Center" />
