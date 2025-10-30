@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using SimpleQuizApp.Models;
 using System.IO;
+using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 
 namespace SimpleQuizApp.Servises;
 
@@ -70,10 +72,22 @@ public static class FileService
         File.Copy(tempPath, destPath, overwrite: true);
     }
 
-    public static string? GetImageSrc(string fileName)
+    public static async Task<(Bitmap? src, bool hasImage)> GetImageAsync(
+        string? imgName)
     {
-        string fullImagePath = Path.Combine(_imagesFolder, fileName);
-
-        return fullImagePath;
+        string path = Path.Combine(_imagesFolder, imgName ?? string.Empty);
+        
+        if (string.IsNullOrEmpty(imgName) || !File.Exists(path))
+            return (null, false);
+        
+        try
+        {
+            var bitmap = await Task.Run(() => new Bitmap(path));
+            return (bitmap, true);
+        }
+        catch
+        {
+            return (null, false);
+        }
     }
 }

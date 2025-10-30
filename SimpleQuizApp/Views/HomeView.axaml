@@ -8,7 +8,7 @@
              x:Class="SimpleQuizApp.Views.HomeView"
              x:DataType="vm:HomeViewModel">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+        <StackPanel Spacing="5">
             <TextBlock Text="Alla Quiz" FontSize="28" FontWeight="Bold" />
             <TextBlock IsVisible="{Binding IsLoading}" Text="Laddar..." />
             <TextBlock IsVisible="{Binding !HasQuizzes}"

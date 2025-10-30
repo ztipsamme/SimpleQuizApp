@@ -19,6 +19,10 @@
         <DataTemplate DataType="viewModels:PlayQuizViewModel">
             <views:PlayQuizView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="viewModels:QuizViewModel">
+            <views:QuizView/>
+        </DataTemplate>
 
         <DataTemplate DataType="viewModels:HomeViewModel">
             <views:HomeView/>

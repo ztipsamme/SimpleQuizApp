@@ -7,23 +7,18 @@ public partial class MainWindowViewModel : ObservableObject
 {
     [ObservableProperty] private ViewModelBase _currentView;
 
-    public HomeViewModel HomeVm { get; }
-    public CreateQuizViewModel CreateQuizVm { get; }
 
     public MainWindowViewModel()
     {
-        HomeVm = new HomeViewModel(this);
-        CreateQuizVm = new CreateQuizViewModel(this);
-
-        CurrentView = HomeVm;
+        CurrentView = new HomeViewModel(this);
     }
 
     [RelayCommand]
-    private void HomeView() => CurrentView = HomeVm;
+    private void HomeView() => CurrentView = new HomeViewModel(this);
 
     [RelayCommand]
     private void ShowCreateQuizView() =>
-        CurrentView = CreateQuizVm;
+        CurrentView = new CreateQuizViewModel(this);
 
     public void NavigateTo(ViewModelBase viewModel)
     {

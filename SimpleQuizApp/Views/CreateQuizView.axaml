@@ -8,92 +8,95 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SimpleQuizApp.Views.CreateQuizView"
              x:DataType="vm:CreateQuizViewModel">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Spacing="30">
-            <StackPanel Spacing="20">
-                <TextBlock FontSize="20" FontWeight="Bold">Skapa Quiz</TextBlock>
-                <TextBlock Foreground="Gray">Skapa ditt Quiz steg för steg. Läg till mellan 3-10 frågor. Se över ditt Quiz innan du skapar och publicerar det.</TextBlock>
-            </StackPanel>
 
-            <StackPanel Spacing="10">
-                <TextBlock FontSize="24" FontWeight="Bold">Grundläggande information</TextBlock>
-                <Border BorderThickness="2" BorderBrush="Black" Padding="20"
-                        CornerRadius="20">
-                    <StackPanel Spacing="20">
-                        <TextBlock FontSize="24" FontWeight="Bold">Titel och beskrivning</TextBlock>
-                        <components:InputFieldView
-                            Label="Titel*"
-                            Description="Vad ska ditt Quiz heta?"
-                            Text="{Binding Title, Mode=TwoWay}" />
-                        <components:InputFieldView
-                            Label="Kategori*"
-                            Description="Vilken kategori tillhör ditt Quiz?"
-                            Text="{Binding Category, Mode=TwoWay}" />
+    <StackPanel Spacing="30">
+        <StackPanel Spacing="20">
+            <TextBlock FontSize="28" FontWeight="Bold">Skapa Quiz</TextBlock>
+            <TextBlock Foreground="Gray">Skapa ditt Quiz steg för steg. Läg till mellan 3-10 frågor. Se över ditt Quiz innan du skapar och publicerar det.</TextBlock>
+        </StackPanel>
 
-                        <StackPanel Spacing="5">
-                            <Label FontSize="20" FontWeight="Bold"
-                                   Content="Omslagsbild" />
-                            <TextBlock
-                                Text="Ladda upp en omslagsbild för ditt Quiz."
-                                Foreground="Gray" />
-                            <TextBlock Text="{Binding CoverImageFileName}"
-                                       IsVisible="{Binding HasCoverImage}" />
-                            <WrapPanel ItemSpacing="5">
-                                <components:VariantButton Content="Ladda upp bild"
-                                        Command="{Binding SelectCoverImageCommand}"
-                                        Margin="0"
-                                        Size="Small" />
-                                <components:VariantButton
-                                    Content="Ta bort bild"
-                                    Color="Danger"
-                                    Command="{Binding RemoveCoverImageCommand}"
+        <StackPanel Spacing="10">
+            <TextBlock FontSize="24" FontWeight="Bold">Grundläggande information</TextBlock>
+            <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                    CornerRadius="20">
+                <StackPanel Spacing="20">
+                    <TextBlock FontSize="24" FontWeight="Bold">Titel och beskrivning</TextBlock>
+                    <components:InputFieldView
+                        Label="Titel*"
+                        Description="Vad ska ditt Quiz heta?"
+                        Text="{Binding Title, Mode=TwoWay}" />
+                    <components:InputFieldView
+                        Label="Kategori*"
+                        Description="Vilken kategori tillhör ditt Quiz?"
+                        Text="{Binding Category, Mode=TwoWay}" />
+                    <components:InputFieldView
+                        Label="Beskrivning*"
+                        Description="Beskriv kort vad quizet innehåller för frågor."
+                        Text="{Binding Description, Mode=TwoWay}" />
+
+                    <StackPanel Spacing="5">
+                        <Label FontSize="20" FontWeight="Bold"
+                               Content="Omslagsbild" />
+                        <TextBlock
+                            Text="Ladda upp en omslagsbild för ditt Quiz."
+                            Foreground="Gray" />
+                        <TextBlock Text="{Binding CoverImageFileName}"
+                                   IsVisible="{Binding HasCoverImage}" />
+                        <WrapPanel ItemSpacing="5">
+                            <components:VariantButton Content="Ladda upp bild"
+                                    Command="{Binding SelectCoverImageCommand}"
                                     Margin="0"
                                     Size="Small" />
-                            </WrapPanel>
-                        </StackPanel>
+                            <components:VariantButton
+                                Content="Ta bort bild"
+                                Color="Danger"
+                                Command="{Binding RemoveCoverImageCommand}"
+                                Margin="0"
+                                Size="Small" />
+                        </WrapPanel>
                     </StackPanel>
-                </Border>
-            </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
 
-            <StackPanel Spacing="10">
-                <TextBlock FontSize="24" FontWeight="Bold">Frågor</TextBlock>
-                <ItemsControl ItemsSource="{Binding QuestionCards}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Spacing="20" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+        <StackPanel Spacing="10">
+            <TextBlock FontSize="24" FontWeight="Bold">Frågor</TextBlock>
+            <ItemsControl ItemsSource="{Binding QuestionCards}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="20" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <components:QuestionCardView
-                                DataContext="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <components:QuestionCardView
+                            DataContext="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                <components:VariantButton Content="Lägg till"
-                                          Command="{Binding AddQuestionCommand}"
-                                          HorizontalAlignment="Left" />
-
-                <components:ErrorMessageView
-                    IsVisible="{Binding IsAllQuestionFieldsErrorVisible}"
-                    Message="{Binding AllQuestionFieldsErrorMessage}" />
-                <components:ErrorMessageView
-                    IsVisible="{Binding IsMaxQuestionsVisible}"
-                    Message="{Binding MaxQuestionsErrorMessage}" />
-            </StackPanel>
-
-            <components:VariantButton Content="Spara Quiz" Color="Primary"
-                                      Command="{Binding SaveQuizCommand}"
+            <components:VariantButton Content="Lägg till"
+                                      Command="{Binding AddQuestionCommand}"
                                       HorizontalAlignment="Left" />
 
             <components:ErrorMessageView
-                IsVisible="{Binding IsMinQuestionsErrorVisible}"
-                Message="{Binding MinQuestionsErrorMessage}" />
+                IsVisible="{Binding IsAllQuestionFieldsErrorVisible}"
+                Message="{Binding AllQuestionFieldsErrorMessage}" />
             <components:ErrorMessageView
-                IsVisible="{Binding IsAllFieldsErrorVisible}"
-                Message="{Binding IsValidErrorMessage}" />
+                IsVisible="{Binding IsMaxQuestionsVisible}"
+                Message="{Binding MaxQuestionsErrorMessage}" />
         </StackPanel>
-    </ScrollViewer>
+
+        <components:VariantButton Content="Spara Quiz" Color="Primary"
+                                  Command="{Binding SaveQuizCommand}"
+                                  HorizontalAlignment="Left" />
+
+        <components:ErrorMessageView
+            IsVisible="{Binding IsMinQuestionsErrorVisible}"
+            Message="{Binding MinQuestionsErrorMessage}" />
+        <components:ErrorMessageView
+            IsVisible="{Binding IsAllFieldsErrorVisible}"
+            Message="{Binding IsValidErrorMessage}" />
+    </StackPanel>
 </UserControl>

@@ -1,8 +1,6 @@
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
@@ -12,6 +10,7 @@ namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class QuizCardViewModel : ViewModelBase
 {
+    private Quiz _quiz;
     [ObservableProperty] private string _title;
     [ObservableProperty] private string? _coverImageName;
     [ObservableProperty] private Bitmap _coverImageSrc;
@@ -21,39 +20,24 @@ public partial class QuizCardViewModel : ViewModelBase
 
     public QuizCardViewModel(Quiz q, MainWindowViewModel main) : base(main)
     {
+        _quiz = q;
         Title = q.Title;
         Questions = new ObservableCollection<Question>(q.Questions);
         CoverImageName = q.CoverImageName;
 
-        if (!string.IsNullOrEmpty(CoverImageName))
-        {
-            string? path = FileService.GetImageSrc(CoverImageName);
-
-            if (path != null && File.Exists(path))
-            {
-                _ = Task.Run(() =>
-                {
-                    try
-                    {
-                        var bitmap = new Bitmap(path);
-                        Dispatcher.UIThread.Post(() =>
-                        {
-                            CoverImageSrc = bitmap;
-                            HasImage = true;
-                        });
-                    }
-                    catch
-                    {
-                        Dispatcher.UIThread.Post(() => HasImage = false);
-                    }
-                });
-            }
-        }
+        _ = LoadImageAsync(CoverImageName);
+    }
+    
+    private async Task LoadImageAsync(string imgName)
+    {
+        var (src, hasImage) = await FileService.GetImageAsync(imgName);
+        CoverImageSrc = src;
+        HasImage = hasImage;
     }
 
     [RelayCommand]
     public void OpenQuizView()
     {
-        Main.NavigateTo(new PlayQuizViewModel(Main));
+        Main.NavigateTo(new QuizViewModel(_quiz, Main));
     }
 }

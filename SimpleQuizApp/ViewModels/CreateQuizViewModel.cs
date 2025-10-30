@@ -18,6 +18,7 @@ public partial class CreateQuizViewModel : ViewModelBase
 {
     [ObservableProperty] private string _title;
     [ObservableProperty] private string _category;
+    [ObservableProperty] private string _description;
     [ObservableProperty] private string _tempCoverImagePath;
     [ObservableProperty] private string _coverImageFileName;
 
@@ -167,7 +168,7 @@ public partial class CreateQuizViewModel : ViewModelBase
             new List<string>() { q.Option1, q.Option2, q.Option3 })
         ).ToList();
 
-        await FileService.WriteJsonFile(new Quiz(Title, Category, CoverImageFileName,
+        await FileService.WriteJsonFile(new Quiz(Title, Category, Description, CoverImageFileName,
             questions));
         
         Main.NavigateTo(new HomeViewModel(Main));
