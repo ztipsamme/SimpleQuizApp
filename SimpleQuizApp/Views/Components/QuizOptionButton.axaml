@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="using:SimpleQuizApp.ViewModels.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SimpleQuizApp.Views.Components.QuizOptionButton"
+             x:DataType="components:QuizOptionButtonViewModel">
+    <UserControl.Styles>
+        <Style Selector="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="20" />
+        </Style>
+        <Style Selector="ToggleButton:checked /template/ ContentPresenter">
+            <Setter Property="Background"
+                    Value="{Binding BgColor, Mode=OneWay}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="ToggleButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background"
+                    Value="{Binding BgColor, Mode=OneWay}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+    </UserControl.Styles>
+
+    <ToggleButton
+        Command="{Binding SelectedAnswerCommand}"
+        CommandParameter="{Binding Text}"
+        IsChecked="{Binding Text, Mode=TwoWay}">
+        <WrapPanel ItemSpacing="10">
+            <Border CornerRadius="100" Width="29" Height="29"
+                    Background="Black">
+                <TextBlock Text="{Binding Number}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" Foreground="White" />
+            </Border>
+            <TextBlock Text="{Binding Text}" VerticalAlignment="Center" />
+        </WrapPanel>
+    </ToggleButton>
+</UserControl>

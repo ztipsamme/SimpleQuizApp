@@ -15,18 +15,20 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="2*, 8*">
-        <Grid RowDefinitions="Auto, *, Auto">
-            <StackPanel></StackPanel>
-            <StackPanel Grid.Row="1">
-                <Button Content="Hem" Command="{Binding HomeViewCommand}"
-                        Margin="5" />
-                <Button Content="Skapa Quiz"
-                        Command="{Binding ShowCreateQuizViewCommand}"
-                        Margin="5" />
-            </StackPanel>
-            <StackPanel Grid.Row="2"></StackPanel>
-        </Grid>
+    <Grid ColumnDefinitions="2*, 8*" Background="hsla(35, 46%, 91%, 1)">
+        <Border BorderThickness="0,0,2,0" BorderBrush="Black">
+            <Grid RowDefinitions="Auto, *, Auto" Background="White">
+                <StackPanel></StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Button Content="Hem" Command="{Binding HomeViewCommand}"
+                            Margin="5" />
+                    <Button Content="Skapa Quiz"
+                            Command="{Binding ShowCreateQuizViewCommand}"
+                            Margin="5" />
+                </StackPanel>
+                <StackPanel Grid.Row="2"></StackPanel>
+            </Grid>
+        </Border>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
             <ContentControl Content="{Binding CurrentView}"
                             Padding="40,30" />

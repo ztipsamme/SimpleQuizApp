@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -10,7 +11,7 @@ public class Question
     public List<string> Options { get; set; } = new();
 
     public string CorrectOption { get; set; }
-    
+
     public string ImagePath { get; set; }
 
     [JsonConstructor]
@@ -20,5 +21,9 @@ public class Question
         Statement = statement;
         CorrectOption = correctOption;
         Options.AddRange(options);
+        Options.Add(CorrectOption);
     }
+
+    public bool IsRightAnswer(string answer) => answer.Equals(CorrectOption,
+        StringComparison.OrdinalIgnoreCase);
 }
