@@ -16,7 +16,8 @@
                     CommandParameter="{Binding}"
                     Background="Transparent" FontWeight="Bold"
                     Padding="10,5"
-                    CornerRadius="5" />
+                    CornerRadius="5" 
+                    Cursor="hand"/>
         </Grid>
         <components:ImageComponent Source="{Binding CoverImageSrc}"
                                    HasImage="{Binding HasImage}"

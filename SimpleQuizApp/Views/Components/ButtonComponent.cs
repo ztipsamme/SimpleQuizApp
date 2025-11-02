@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace SimpleQuizApp.Views.Components;
 
@@ -38,4 +39,10 @@ public class VariantButton : Button
         get => GetValue(SizeProperty);
         set => SetValue(SizeProperty, value);
     }
+    
+    public VariantButton()
+    {
+        Cursor = new Cursor(StandardCursorType.Hand);
+    }
+
 }

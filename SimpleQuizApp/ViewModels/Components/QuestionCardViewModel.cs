@@ -5,6 +5,8 @@ namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class QuestionCardViewModel : ObservableObject
 {
+    [ObservableProperty] private ImageUploadViewModel _coverImageUpload = new();
+
     [ObservableProperty] private string _statement;
     [ObservableProperty] private string _correctOption;
     [ObservableProperty] private string _option1;

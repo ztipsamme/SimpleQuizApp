@@ -17,13 +17,12 @@ public partial class QuizFormViewModel : ViewModelBase
 {
     private readonly Quiz? _quiz;
 
+    [ObservableProperty] private ImageUploadViewModel _coverImageUpload = new();
     [ObservableProperty] private string _viewHeader;
     [ObservableProperty] private string _viewDescription;
     [ObservableProperty] private string _title;
     [ObservableProperty] private string _category;
     [ObservableProperty] private string _description;
-    [ObservableProperty] private string _tempCoverImagePath;
-    [ObservableProperty] private string _coverImageFileName;
 
     [ObservableProperty]
     private ObservableCollection<QuestionCardViewModel> _questionCards =
@@ -45,7 +44,6 @@ public partial class QuizFormViewModel : ViewModelBase
     [ObservableProperty] private bool _isAllQuestionFieldsErrorVisible;
     [ObservableProperty] private bool _isMaxQuestionsVisible;
     [ObservableProperty] private bool _isMinQuestionsErrorVisible;
-    [ObservableProperty] private bool _hasCoverImage;
 
     public QuizFormViewModel(MainWindowViewModel main, Quiz? q = null) :
         base(main)
@@ -58,8 +56,6 @@ public partial class QuizFormViewModel : ViewModelBase
             Title = q.Title;
             Category = q.Category;
             Description = q.Description;
-            CoverImageFileName = q.CoverImageName;
-            HasCoverImage = !string.IsNullOrWhiteSpace(q.CoverImageName);
 
             foreach (Question question in q.Questions)
             {
@@ -78,6 +74,8 @@ public partial class QuizFormViewModel : ViewModelBase
                 qCard.IsExpanded = false;
                 QuestionCards.Add(qCard);
             }
+            
+            CoverImageUpload = new(q.CoverImageName);
         }
         else
         {
@@ -91,42 +89,9 @@ public partial class QuizFormViewModel : ViewModelBase
 
         ViewDescription = (q != null ? "Redigera" : "Skapa") +
                           " ditt Quiz steg för steg. Läg till mellan 3-10 frågor. Se över ditt Quiz innan du skapar och publicerar det.";
+
     }
-
-    [RelayCommand]
-    public async Task SelectCoverImage()
-    {
-        var dlg = new OpenFileDialog();
-
-        dlg.Filters.Add(new FileDialogFilter
-            { Name = "Images", Extensions = { "png", "jpg", "jpeg" } });
-        dlg.AllowMultiple = false;
-
-        var window =
-            App.Current.ApplicationLifetime is
-                IClassicDesktopStyleApplicationLifetime
-                desktop
-                ? desktop.MainWindow
-                : null;
-
-        var res = await dlg.ShowAsync(window);
-
-        if (res != null && res.Length > 0)
-        {
-            TempCoverImagePath = res[0];
-            CoverImageFileName = Path.GetFileName(res[0]);
-            HasCoverImage = true;
-        }
-    }
-
-    [RelayCommand]
-    public void RemoveCoverImage()
-    {
-        TempCoverImagePath = default;
-        CoverImageFileName = default;
-        HasCoverImage = false;
-    }
-
+    
     [RelayCommand]
     public async Task AddQuestion()
     {
@@ -181,12 +146,8 @@ public partial class QuizFormViewModel : ViewModelBase
             return;
         }
 
-
-        if (!string.IsNullOrWhiteSpace(CoverImageFileName) &&
-            !string.IsNullOrWhiteSpace(TempCoverImagePath))
-        {
-            FileService.SaveImage(CoverImageFileName, TempCoverImagePath);
-        }
+        CoverImageUpload.SaveIfPresent();
+        var coverImageFileName = CoverImageUpload.CoverImageFileName;
 
         foreach (var q in QuestionCards)
         {
@@ -214,14 +175,14 @@ public partial class QuizFormViewModel : ViewModelBase
         {
             await FileService.UpdateJsonFile(_quiz.Id, Title, Category,
                 Description,
-                CoverImageFileName, questions);
+                coverImageFileName, questions);
             Main.NavigateTo(new QuizViewModel(_quiz.Id, Main));
         }
         else
         {
             await FileService.WriteJsonFile(new Quiz(Title, Category,
                 Description,
-                CoverImageFileName,
+                coverImageFileName,
                 questions));
             Main.NavigateTo(new HomeViewModel(Main));
         }

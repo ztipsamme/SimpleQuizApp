@@ -36,27 +36,9 @@
                         Description="Beskriv kort vad quizet innehåller för frågor."
                         Text="{Binding Description, Mode=TwoWay}" />
 
-                    <StackPanel Spacing="5">
-                        <Label FontSize="20" FontWeight="Bold"
-                               Content="Omslagsbild" />
-                        <TextBlock
-                            Text="Ladda upp en omslagsbild för ditt Quiz."
-                            Foreground="Gray" />
-                        <TextBlock Text="{Binding CoverImageFileName}"
-                                   IsVisible="{Binding HasCoverImage}" />
-                        <WrapPanel ItemSpacing="5">
-                            <components:VariantButton Content="Ladda upp bild"
-                                    Command="{Binding SelectCoverImageCommand}"
-                                    Margin="0"
-                                    Size="Small" />
-                            <components:VariantButton
-                                Content="Ta bort bild"
-                                Color="Danger"
-                                Command="{Binding RemoveCoverImageCommand}"
-                                Margin="0"
-                                Size="Small" />
-                        </WrapPanel>
-                    </StackPanel>
+                    <components:ImageUploadView
+                        DataContext="{Binding CoverImageUpload}" />
+
                 </StackPanel>
             </Border>
         </StackPanel>

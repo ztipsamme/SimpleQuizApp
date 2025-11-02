@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleQuizApp.ViewModels.Components"
+             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
+             mc:Ignorable="d"
+             x:Class="SimpleQuizApp.Views.Components.ImageUploadView"
+             x:DataType="vm:ImageUploadViewModel">
+
+    <StackPanel Spacing="8">
+        <Label FontSize="20" FontWeight="Bold" Content="Omslagsbild" />
+        <TextBlock Foreground="Gray"
+                   Text="Ladda upp en omslagsbild för ditt quiz." />
+
+        <StackPanel Spacing="5">
+            <Border CornerRadius="20" ClipToBounds="True"
+                    HorizontalAlignment="Left">
+                <Image Source="{Binding ImageSrc}"
+                       Height="150"
+                       Width="200"
+                       IsVisible="{Binding HasImage}" />
+            </Border>
+            <TextBlock Text="{Binding CoverImageFileName}"
+                       IsVisible="{Binding HasImage}" />
+        </StackPanel>
+
+        <WrapPanel ItemSpacing="5">
+            <components:VariantButton Content="Ladda upp bild"
+                                      Command="{Binding SelectCoverImageCommand}"
+                                      Size="Small" />
+            <components:VariantButton Content="Ta bort bild"
+                                      Color="Danger"
+                                      Command="{Binding RemoveCoverImageCommand}"
+                                      Size="Small" />
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

@@ -26,7 +26,8 @@
                                 CommandParameter="{Binding}"
                                 Background="Transparent" FontWeight="Bold"
                                 Padding="20" Margin="-20,-20,-20,-20"
-                                CornerRadius="0,20,0,5" />
+                                CornerRadius="0,20,0,5" 
+                                Cursor="hand"/>
                     </Grid>
 
                     <WrapPanel>
@@ -63,6 +64,9 @@
                         Label="Fråga*"
                         Description="Skriv in frågan som ska besvaras."
                         Text="{Binding Statement, Mode=TwoWay}" />
+                    
+                    <components:ImageUploadView
+                        DataContext="{Binding CoverImageUpload}" />
 
                     <components:InputFieldView
                         Label="Rätt svar*"
