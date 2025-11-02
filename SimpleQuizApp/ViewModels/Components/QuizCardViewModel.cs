@@ -38,6 +38,6 @@ public partial class QuizCardViewModel : ViewModelBase
     [RelayCommand]
     public void OpenQuizView()
     {
-        Main.NavigateTo(new QuizViewModel(_quiz, Main));
+        Main.NavigateTo(new QuizViewModel(_quiz.Id, Main));
     }
 }

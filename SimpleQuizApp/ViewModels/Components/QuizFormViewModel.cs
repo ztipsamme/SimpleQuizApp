@@ -15,7 +15,7 @@ namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class QuizFormViewModel : ViewModelBase
 {
-    private Quiz _quiz;
+    private readonly Quiz? _quiz;
 
     [ObservableProperty] private string _viewHeader;
     [ObservableProperty] private string _viewDescription;
@@ -70,7 +70,6 @@ public partial class QuizFormViewModel : ViewModelBase
                 qCard.CorrectOption = question.CorrectOption;
 
                 var options = question.Options;
-                options.Remove(question.CorrectOption);
 
                 qCard.Option1 = options[0];
                 qCard.Option2 = options[1];
@@ -121,7 +120,7 @@ public partial class QuizFormViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async Task RemoveCoverImage()
+    public void RemoveCoverImage()
     {
         TempCoverImagePath = default;
         CoverImageFileName = default;
@@ -164,7 +163,7 @@ public partial class QuizFormViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async Task SaveQuiz(ViewModelBase vm)
+    public async Task SaveQuiz()
     {
         if (QuestionCards.Count < 3)
         {
@@ -211,11 +210,12 @@ public partial class QuizFormViewModel : ViewModelBase
             new List<string>() { q.Option1, q.Option2, q.Option3 })
         ).ToList();
 
-        if (await FileService.QuizExists(_quiz.Id))
+        if (_quiz != null && await FileService.QuizExists(_quiz.Id))
         {
             await FileService.UpdateJsonFile(_quiz.Id, Title, Category,
                 Description,
                 CoverImageFileName, questions);
+            Main.NavigateTo(new QuizViewModel(_quiz.Id, Main));
         }
         else
         {
@@ -223,10 +223,18 @@ public partial class QuizFormViewModel : ViewModelBase
                 Description,
                 CoverImageFileName,
                 questions));
+            Main.NavigateTo(new HomeViewModel(Main));
         }
+    }
 
+    [RelayCommand]
+    public async Task DeleteQuiz()
+    {
+        if (_quiz == null) return;
 
-        Main.NavigateTo(vm);
+        await FileService.DeleteFromJsonFile(_quiz.Id);
+
+        Main.NavigateTo(new HomeViewModel(Main));
     }
 
     private async Task ShowErrorTemporarilyAsync(Action showAction,

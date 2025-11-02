@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -35,12 +35,7 @@ public partial class PlayQuizViewModel : ViewModelBase
         Title = q.Title;
         Questions =
             new ObservableCollection<Question>(q.Questions
-                .OrderBy(_ => _rnd.Next())
-                .Select(x =>
-                {
-                    x.Options = x.Options.OrderBy(_ => _rnd.Next()).ToList();
-                    return x;
-                }));
+                .OrderBy(_ => _rnd.Next()));
         OptionButtons = new ObservableCollection<QuizOptionButtonViewModel>();
 
         InitializeCurrentQuestion(Questions.First());
@@ -53,9 +48,12 @@ public partial class PlayQuizViewModel : ViewModelBase
         IsChecked = false;
         IsAnswered = false;
         CurrentQuestion = q ?? Questions[_currentQuestionIdx];
+        CurrentQuestion.Options.Add(CurrentQuestion.CorrectOption);
+        
+        List<string> options = CurrentQuestion.Options.OrderBy(_ => _rnd.Next()).ToList();
 
         OptionButtons.Clear();
-        for (int i = 0; i < CurrentQuestion.Options.Count; i++)
+        for (int i = 0; i < options.Count; i++)
         {
             OptionButtons.Add(new QuizOptionButtonViewModel(
                 i + 1,

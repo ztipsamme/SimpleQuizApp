@@ -21,7 +21,6 @@ public class Question
         Statement = statement;
         CorrectOption = correctOption;
         Options.AddRange(options);
-        Options.Add(CorrectOption);
     }
 
     public bool IsRightAnswer(string answer) => answer.Equals(CorrectOption,

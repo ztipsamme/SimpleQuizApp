@@ -7,11 +7,14 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SimpleQuizApp.Views.Components.QuizFormView"
              x:DataType="vm:QuizFormViewModel">
-             
+
     <StackPanel Spacing="30">
         <StackPanel Spacing="20">
-            <TextBlock FontSize="28" FontWeight="Bold" Text="{Binding ViewHeader}"/>
-            <TextBlock Foreground="Gray" Text="{Binding ViewDescription}"/>
+            <TextBlock
+                FontSize="28"
+                FontWeight="Bold"
+                Text="{Binding ViewHeader}" />
+            <TextBlock Foreground="Gray" Text="{Binding ViewDescription}" />
         </StackPanel>
 
         <StackPanel Spacing="10">
@@ -87,9 +90,21 @@
                 Message="{Binding MaxQuestionsErrorMessage}" />
         </StackPanel>
 
-        <components:VariantButton Content="Spara Quiz" Color="Primary"
-                                  Command="{Binding SaveQuizCommand}"
-                                  HorizontalAlignment="Left" />
+        <Grid ColumnDefinitions="*, Auto">
+            <components:VariantButton
+                Content="Spara Quiz" Color="Primary"
+                Command="{Binding SaveQuizCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center" />
+            <components:VariantButton
+                Grid.Column="1"
+                Content="Radera Quiz"
+                Command="{Binding DeleteQuizCommand}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Color="Danger"
+                Size="Small" />
+        </Grid>
 
         <components:ErrorMessageView
             IsVisible="{Binding IsMinQuestionsErrorVisible}"

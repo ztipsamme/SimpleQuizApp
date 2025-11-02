@@ -72,6 +72,14 @@ public static class FileService
         return quizzes.Where(x => x.Id == id).Any();
     }
 
+    public static async Task<Quiz?> GetQuiz(Guid id)
+    {
+        List<Quiz> quizzes = await ReadJsonFile();
+        Quiz? quiz = quizzes.FirstOrDefault(x => x.Id == id);
+        
+        return quiz;
+    }
+
     public static async Task UpdateJsonFile(Guid id, string title,
         string category,
         string description,
@@ -97,13 +105,30 @@ public static class FileService
         }
     }
 
+    public static async Task DeleteFromJsonFile(Guid id)
+    {
+        var quizzes = await ReadJsonFile();
+        Quiz? existingQuiz = quizzes.Find(x => x.Id == id);
+
+        if (existingQuiz == null)
+        {
+            Console.WriteLine("No Quiz found");
+        }
+        else
+        {
+            quizzes.Remove(existingQuiz);
+            await WriteJsonFile(quizzes);
+        }
+    }
+
     public static void SaveImage(string fileName, string tempPath)
     {
-        if (!string.IsNullOrWhiteSpace(fileName) || !string.IsNullOrWhiteSpace(tempPath))
+        if (!string.IsNullOrWhiteSpace(fileName) ||
+            !string.IsNullOrWhiteSpace(tempPath))
         {
             return;
         }
-        
+
         Directory.CreateDirectory(_imagesFolder);
 
         string destPath = Path.Combine(_imagesFolder, fileName);

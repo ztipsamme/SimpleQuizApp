@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,13 +19,22 @@ public partial class QuizViewModel : ViewModelBase
     [ObservableProperty] private bool _hasImage;
     private Quiz _quiz;
 
-    public QuizViewModel(Quiz q, MainWindowViewModel main) : base(main)
+    public QuizViewModel(Guid id, MainWindowViewModel main) : base(main)
     {
-        _quiz = q;
-        Title = q.Title;
-        Description = q.Description;
-        CoverImageName = q.CoverImageName;
+        _ = LoadQuiz(id);
+    }
 
+    private async Task LoadQuiz(Guid id) {
+        var quiz = await FileService.GetQuiz(id);
+        
+        if (quiz == null) return;
+        
+        HasQuiz = true;
+        _quiz = quiz;
+        Title = quiz.Title;
+        Description = quiz.Description;
+        CoverImageName = quiz.CoverImageName;
+        
         _ = LoadImageAsync(CoverImageName);
     }
     
