@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using SimpleQuizApp.Models;
 using System.IO;
+using System.Linq;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 
@@ -64,8 +65,45 @@ public static class FileService
         return quizzes;
     }
 
+    public static async Task<bool> QuizExists(Guid id)
+    {
+        var quizzes = await ReadJsonFile();
+
+        return quizzes.Where(x => x.Id == id).Any();
+    }
+
+    public static async Task UpdateJsonFile(Guid id, string title,
+        string category,
+        string description,
+        string coverImageFileName,
+        List<Question> questions)
+    {
+        var quizzes = await ReadJsonFile();
+        Quiz? existingQuiz = quizzes.Find(x => x.Id == id);
+
+        if (existingQuiz == null)
+        {
+            Console.WriteLine("No Quiz found");
+        }
+        else
+        {
+            existingQuiz.Title = title;
+            existingQuiz.Category = category;
+            existingQuiz.Description = description;
+            existingQuiz.CoverImageName = coverImageFileName;
+            existingQuiz.Questions = questions;
+
+            await WriteJsonFile(quizzes);
+        }
+    }
+
     public static void SaveImage(string fileName, string tempPath)
     {
+        if (!string.IsNullOrWhiteSpace(fileName) || !string.IsNullOrWhiteSpace(tempPath))
+        {
+            return;
+        }
+        
         Directory.CreateDirectory(_imagesFolder);
 
         string destPath = Path.Combine(_imagesFolder, fileName);
@@ -76,10 +114,10 @@ public static class FileService
         string? imgName)
     {
         string path = Path.Combine(_imagesFolder, imgName ?? string.Empty);
-        
+
         if (string.IsNullOrEmpty(imgName) || !File.Exists(path))
             return (null, false);
-        
+
         try
         {
             var bitmap = await Task.Run(() => new Bitmap(path));

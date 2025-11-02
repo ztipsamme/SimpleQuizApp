@@ -6,7 +6,7 @@ namespace SimpleQuizApp.Models;
 
 public class Quiz
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string Title { get; set; }
     public string Category { get; set; }
     public string Description { get; set; }

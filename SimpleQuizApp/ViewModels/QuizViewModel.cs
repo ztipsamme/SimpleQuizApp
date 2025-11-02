@@ -40,4 +40,10 @@ public partial class QuizViewModel : ViewModelBase
     {
         Main.NavigateTo(new PlayQuizViewModel(_quiz, Main));
     }
+
+    [RelayCommand]
+    public void EditQuiz()
+    {
+        Main.NavigateTo(new EditQuizViewModel(_quiz, Main));
+    }
 }

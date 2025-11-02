@@ -1,18 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:SimpleQuizApp.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleQuizApp.ViewModels.Components"
              xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
-             x:Name="CreateCard"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SimpleQuizApp.Views.CreateQuizView"
-             x:DataType="vm:CreateQuizViewModel">
-
+             x:Class="SimpleQuizApp.Views.Components.QuizFormView"
+             x:DataType="vm:QuizFormViewModel">
+             
     <StackPanel Spacing="30">
         <StackPanel Spacing="20">
-            <TextBlock FontSize="28" FontWeight="Bold">Skapa Quiz</TextBlock>
-            <TextBlock Foreground="Gray">Skapa ditt Quiz steg för steg. Läg till mellan 3-10 frågor. Se över ditt Quiz innan du skapar och publicerar det.</TextBlock>
+            <TextBlock FontSize="28" FontWeight="Bold" Text="{Binding ViewHeader}"/>
+            <TextBlock Foreground="Gray" Text="{Binding ViewDescription}"/>
         </StackPanel>
 
         <StackPanel Spacing="10">
