@@ -96,6 +96,5 @@ public partial class PlayQuizViewModel : ViewModelBase
     public void ShowQuizResult()
     {
         Main.NavigateTo(new PlayQuizResultViewModel(_quiz, CorrectAnswers, Main));
-        Console.WriteLine("Quiz Result");
     }
 }

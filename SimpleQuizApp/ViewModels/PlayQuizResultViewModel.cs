@@ -1,7 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
 using SimpleQuizApp.Servises;
 
@@ -37,7 +37,7 @@ public partial class PlayQuizResultViewModel : ViewModelBase
             0 => "Ajdå, ingen rätt den här gången. Prova igen!",
             _ => "Resultatet kunde inte beräknas."
         };
-        
+
         _ = LoadImageAsync(q.CoverImageName);
     }
 
@@ -46,5 +46,12 @@ public partial class PlayQuizResultViewModel : ViewModelBase
         var (src, hasImage) = await FileService.GetImageAsync(imgName);
         CoverImageSrc = src;
         HasImage = hasImage;
+    }
+
+    [RelayCommand]
+    public void GoHome()
+    {
+        Main.NavigateTo(
+            new HomeViewModel(Main));
     }
 }

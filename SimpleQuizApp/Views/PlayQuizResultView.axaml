@@ -17,7 +17,7 @@
                                            HasImage="{Binding HasImage}"
                                            AspectRatio="3,4" />
                 <TextBlock Text="{Binding Message}" FontSize="28"
-                           FontWeight="Bold" HorizontalAlignment="Center"/>
+                           FontWeight="Bold" HorizontalAlignment="Center" />
                 <TextBlock HorizontalAlignment="Center">
                     Du fick
                     <Run FontWeight="Bold">+40</Run>
@@ -31,7 +31,8 @@
                         FontWeight="Bold"
                         HorizontalAlignment="Center" Padding="10, 0" />
 
-                    <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Black"
+                    <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                            Background="Black"
                             Width="2" />
 
                     <TextBlock Grid.Column="2" Grid.Row="0"
@@ -41,9 +42,9 @@
 
 
                     <TextBlock Grid.Column="0" Grid.Row="1"
-                        Text="{Binding CorrectAnswers}"
-                        HorizontalAlignment="Center"
-                        Padding="10, 
+                               Text="{Binding CorrectAnswers}"
+                               HorizontalAlignment="Center"
+                               Padding="10, 
                                    0" />
                     <TextBlock Grid.Column="2" Grid.Row="1"
                                Text="{Binding WrongAnswers}"
@@ -51,5 +52,10 @@
                 </Grid>
             </StackPanel>
         </Border>
+        <components:VariantButton Command="{Binding GoHomeCommand}"
+                                  Content="Till Startsidan"
+                                  Color="Primary"
+                                  Size="Medium"
+                                  HorizontalAlignment="Left"/>
     </StackPanel>
 </UserControl>
