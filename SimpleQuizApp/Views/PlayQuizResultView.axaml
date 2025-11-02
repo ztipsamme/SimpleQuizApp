@@ -2,7 +2,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleQuizApp.ViewModels"
+             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SimpleQuizApp.Views.PlayQuizResultView">
-    Welcome to Avalonia!
+             x:Class="SimpleQuizApp.Views.PlayQuizResultView"
+             x:DataType="vm:PlayQuizResultViewModel">
+    <StackPanel Spacing="20">
+        <TextBlock Text="{Binding Quiz.Title}" FontSize="28"
+                   FontWeight="Bold" />
+        <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                CornerRadius="20" Background="White">
+            <StackPanel Spacing="20">
+                <components:ImageComponent Source="{Binding CoverImageSrc}"
+                                           HasImage="{Binding HasImage}"
+                                           AspectRatio="3,4" />
+                <TextBlock Text="{Binding Message}" FontSize="28"
+                           FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center">
+                    Du fick
+                    <Run FontWeight="Bold">+40</Run>
+                    XP
+                </TextBlock>
+                <Grid ColumnDefinitions="Auto,2, Auto"
+                      RowDefinitions="Auto, Auto" RowSpacing="5"
+                      HorizontalAlignment="Center">
+                    <TextBlock
+                        Text="Rätt"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center" Padding="10, 0" />
+
+                    <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Black"
+                            Width="2" />
+
+                    <TextBlock Grid.Column="2" Grid.Row="0"
+                               Text="Fel"
+                               FontWeight="Bold" HorizontalAlignment="Center"
+                               Padding="10, 0" />
+
+
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                        Text="{Binding CorrectAnswers}"
+                        HorizontalAlignment="Center"
+                        Padding="10, 
+                                   0" />
+                    <TextBlock Grid.Column="2" Grid.Row="1"
+                               Text="{Binding WrongAnswers}"
+                               HorizontalAlignment="Center" Padding="10, 0" />
+                </Grid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

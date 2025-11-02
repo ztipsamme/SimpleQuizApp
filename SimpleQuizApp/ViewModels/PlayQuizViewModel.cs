@@ -14,6 +14,7 @@ public partial class PlayQuizViewModel : ViewModelBase
 {
     private Random _rnd = new();
     private int _currentQuestionIdx = 0;
+    private Quiz _quiz;
 
     [ObservableProperty] private string _header;
     [ObservableProperty] private string _title;
@@ -24,13 +25,13 @@ public partial class PlayQuizViewModel : ViewModelBase
 
     [ObservableProperty] private Question _currentQuestion;
     [ObservableProperty] private int _correctAnswers;
-    [ObservableProperty] private int _failAnswers;
     [ObservableProperty] private bool _isChecked;
     [ObservableProperty] private string _selectedOption;
     [ObservableProperty] private bool _isAnswered;
 
     public PlayQuizViewModel(Quiz q, MainWindowViewModel main) : base(main)
     {
+        _quiz = q;
         Title = q.Title;
         Questions =
             new ObservableCollection<Question>(q.Questions
@@ -69,7 +70,6 @@ public partial class PlayQuizViewModel : ViewModelBase
     public async Task SelectedAnswer()
     {
         if (CurrentQuestion.IsRightAnswer(SelectedOption)) CorrectAnswers++;
-        else FailAnswers++;
 
         IsAnswered = true;
 
@@ -95,7 +95,7 @@ public partial class PlayQuizViewModel : ViewModelBase
 
     public void ShowQuizResult()
     {
-        Main.NavigateTo(new PlayQuizResultViewModel(Main));
+        Main.NavigateTo(new PlayQuizResultViewModel(_quiz, CorrectAnswers, Main));
         Console.WriteLine("Quiz Result");
     }
 }

@@ -8,22 +8,12 @@
              x:Class="SimpleQuizApp.Views.PlayQuizView"
              x:DataType="vm:PlayQuizViewModel"
              x:Name="PlayQuiz">
-    <UserControl.Styles>
-        <Style Selector="ToggleButton">
-            <Setter Property="Background" Value="LightGray" />
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Padding" Value="10,6" />
-            <Setter Property="CornerRadius" Value="6" />
-        </Style>
-    </UserControl.Styles>
-
+    
     <StackPanel Spacing="20">
         <TextBlock Text="{Binding Title}" FontSize="28"
                    FontWeight="Bold" />
         <Border BorderThickness="2" BorderBrush="Black" Padding="20"
-                CornerRadius="20">
+                CornerRadius="20" Background="White">
             <StackPanel Spacing="20">
                 <TextBlock FontWeight="Bold">
                     <Run Text="{Binding Header}" FontSize="24" />
@@ -37,7 +27,8 @@
                 <ItemsControl ItemsSource="{Binding OptionButtons}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="2" ColumnSpacing="20" RowSpacing="20"/> 
+                            <UniformGrid Columns="2" ColumnSpacing="20"
+                                         RowSpacing="20" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
