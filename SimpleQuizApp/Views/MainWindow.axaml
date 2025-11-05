@@ -3,6 +3,7 @@
         xmlns:vm="using:SimpleQuizApp.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SimpleQuizApp.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -16,17 +17,19 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="2*, 8*" Background="hsla(35, 46%, 91%, 1)">
-        <Border BorderThickness="0,0,2,0" BorderBrush="Black">
-            <Grid RowDefinitions="Auto, *, Auto" Background="White">
-                <StackPanel></StackPanel>
-                <StackPanel Grid.Row="1">
-                    <Button Content="Hem" Command="{Binding HomeViewCommand}"
-                            Margin="5" />
-                    <Button Content="Skapa Quiz"
-                            Command="{Binding ShowCreateQuizViewCommand}"
-                            Margin="5" />
+        <Border BorderThickness="0,0,2,0" BorderBrush="Black" Padding="20,30" Background="White">
+            <Grid RowDefinitions="Auto, *, Auto"  RowSpacing="50" >
+                <TextBlock Text="QuizApp" FontSize="28" FontWeight="Bold"/>
+                <StackPanel Grid.Row="1" Spacing="20">
+                    <components:VariantButton Content="Hem"
+                                              Command="{Binding HomeViewCommand}"
+                                              Color="Default"
+                                              CornerRadius="100" />
+                    <components:VariantButton Content="Skapa Quiz"
+                                              Command="{Binding ShowCreateQuizViewCommand}"
+                                              Color="Default"
+                                              CornerRadius="100" />
                 </StackPanel>
-                <StackPanel Grid.Row="2"></StackPanel>
             </Grid>
         </Border>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
