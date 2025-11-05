@@ -12,15 +12,16 @@ public class Question
 
     public string CorrectOption { get; set; }
 
-    public string ImagePath { get; set; }
+    public string ImageFileName { get; set; }
 
     [JsonConstructor]
     public Question(string statement, string correctOption,
-        List<string> options)
+        List<string> options, string imageFileName)
     {
         Statement = statement;
         CorrectOption = correctOption;
         Options.AddRange(options);
+        ImageFileName = imageFileName;
     }
 
     public bool IsRightAnswer(string answer) => answer.Equals(CorrectOption,

@@ -59,22 +59,13 @@ public partial class QuizFormViewModel : ViewModelBase
 
             foreach (Question question in q.Questions)
             {
-                var qCard = new QuestionCardViewModel(EditQuestionCommand,
+                var qCard = new QuestionCardViewModel(question,
+                    EditQuestionCommand,
                     RemoveQuestionCommand);
 
-                qCard.Statement = question.Statement;
-                qCard.CorrectOption = question.CorrectOption;
-
-                var options = question.Options;
-
-                qCard.Option1 = options[0];
-                qCard.Option2 = options[1];
-                qCard.Option3 = options[2];
-
-                qCard.IsExpanded = false;
                 QuestionCards.Add(qCard);
             }
-            
+
             CoverImageUpload = new(q.CoverImageName);
         }
         else
@@ -89,9 +80,8 @@ public partial class QuizFormViewModel : ViewModelBase
 
         ViewDescription = (q != null ? "Redigera" : "Skapa") +
                           " ditt Quiz steg för steg. Läg till mellan 3-10 frågor. Se över ditt Quiz innan du skapar och publicerar det.";
-
     }
-    
+
     [RelayCommand]
     public async Task AddQuestion()
     {
@@ -147,7 +137,7 @@ public partial class QuizFormViewModel : ViewModelBase
         }
 
         CoverImageUpload.SaveIfPresent();
-        var coverImageFileName = CoverImageUpload.CoverImageFileName;
+        var coverImageFileName = CoverImageUpload.ImageFileName;
 
         foreach (var q in QuestionCards)
         {
@@ -164,11 +154,14 @@ public partial class QuizFormViewModel : ViewModelBase
                     return;
                 }
             }
+
+            q.QuestionImageUpload.SaveIfPresent();
         }
 
         var questions = QuestionCards.Select(q => new Question(q.Statement,
             q.CorrectOption,
-            new List<string>() { q.Option1, q.Option2, q.Option3 })
+            new List<string>() { q.Option1, q.Option2, q.Option3 },
+            q.QuestionImageUpload.ImageFileName)
         ).ToList();
 
         if (_quiz != null && await FileService.QuizExists(_quiz.Id))

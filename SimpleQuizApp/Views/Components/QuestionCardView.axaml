@@ -29,11 +29,16 @@
                                 CornerRadius="0,20,0,5" 
                                 Cursor="hand"/>
                     </Grid>
+                    
+                    <TextBlock>
+                        <Run FontWeight="Bold" Text="Bild: " />
+                        <Run Text="{Binding QuestionImageUpload.ImageFileName}" />
+                    </TextBlock>
 
-                    <WrapPanel>
-                        <TextBlock FontWeight="Bold" Text="Rätt svar: " />
-                        <TextBlock Text="{Binding CorrectOption}" />
-                    </WrapPanel>
+                    <TextBlock>
+                        <Run FontWeight="Bold" Text="Rätt svar: " />
+                        <Run Text="{Binding CorrectOption}" />
+                    </TextBlock>
 
                     <StackPanel Spacing="5">
                         <TextBlock FontWeight="Bold">Fel svar:</TextBlock>
@@ -66,7 +71,7 @@
                         Text="{Binding Statement, Mode=TwoWay}" />
                     
                     <components:ImageUploadView
-                        DataContext="{Binding CoverImageUpload}" />
+                        DataContext="{Binding QuestionImageUpload}" />
 
                     <components:InputFieldView
                         Label="Rätt svar*"

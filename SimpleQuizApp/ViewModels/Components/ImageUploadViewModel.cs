@@ -11,22 +11,22 @@ namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class ImageUploadViewModel : ObservableObject
 {
-    [ObservableProperty] private string _coverImageFileName;
-    [ObservableProperty] private string _tempCoverImagePath;
+    [ObservableProperty] private string _imageFileName;
+    [ObservableProperty] private string _tempImagePath;
     [ObservableProperty] private Bitmap _imageSrc;
     [ObservableProperty] private bool _hasImage;
 
-    public ImageUploadViewModel(string? coverImageFile = null)
+    public ImageUploadViewModel(string? imageFileName = null)
     {
-        if (coverImageFile != null)
+        if (imageFileName != null)
         {
-            CoverImageFileName = coverImageFile;
-            _ = LoadImageAsync(CoverImageFileName);
+            ImageFileName = imageFileName;
+            _ = LoadImageAsync(ImageFileName);
         }
     }
 
     [RelayCommand]
-    public async Task SelectCoverImage()
+    public async Task SelectImage()
     {
         var dlg = new OpenFileDialog
         {
@@ -45,28 +45,28 @@ public partial class ImageUploadViewModel : ObservableObject
 
         if (res is { Length: > 0 })
         {
-            TempCoverImagePath = res[0];
-            CoverImageFileName = Path.GetFileName(res[0]);
+            TempImagePath = res[0];
+            ImageFileName = Path.GetFileName(res[0]);
             HasImage = true;
-            await LoadImageAsync(TempCoverImagePath);
+            await LoadImageAsync(TempImagePath);
         }
     }
 
     [RelayCommand]
-    public void RemoveCoverImage()
+    public void RemoveImage()
     {
-        TempCoverImagePath = null;
-        CoverImageFileName = null;
+        TempImagePath = null;
+        ImageFileName = null;
         ImageSrc = null;
         HasImage = false;
     }
 
     public void SaveIfPresent()
     {
-        if (!string.IsNullOrWhiteSpace(CoverImageFileName) &&
-            !string.IsNullOrWhiteSpace(TempCoverImagePath))
+        if (!string.IsNullOrWhiteSpace(ImageFileName) &&
+            !string.IsNullOrWhiteSpace(TempImagePath))
         {
-            FileService.SaveImage(CoverImageFileName, TempCoverImagePath);
+            FileService.SaveImage(ImageFileName, TempImagePath);
         }
     }
 

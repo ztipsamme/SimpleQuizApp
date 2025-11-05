@@ -21,17 +21,17 @@
                        Width="200"
                        IsVisible="{Binding HasImage}" />
             </Border>
-            <TextBlock Text="{Binding CoverImageFileName}"
+            <TextBlock Text="{Binding ImageFileName}"
                        IsVisible="{Binding HasImage}" />
         </StackPanel>
 
         <WrapPanel ItemSpacing="5">
             <components:VariantButton Content="Ladda upp bild"
-                                      Command="{Binding SelectCoverImageCommand}"
+                                      Command="{Binding SelectImageCommand}"
                                       Size="Small" />
             <components:VariantButton Content="Ta bort bild"
                                       Color="Danger"
-                                      Command="{Binding RemoveCoverImageCommand}"
+                                      Command="{Binding RemoveImageCommand}"
                                       Size="Small" />
         </WrapPanel>
     </StackPanel>
