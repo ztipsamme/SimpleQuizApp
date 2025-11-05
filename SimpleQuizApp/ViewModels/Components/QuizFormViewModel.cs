@@ -177,7 +177,7 @@ public partial class QuizFormViewModel : ViewModelBase
                 Description,
                 coverImageFileName,
                 questions));
-            Main.NavigateTo(new HomeViewModel(Main));
+            Main.NavigateTo(new CreateQuizConfirmationViewModel(Title, CoverImageUpload.ImageSrc, Main));
         }
     }
 

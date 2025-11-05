@@ -13,21 +13,18 @@ namespace SimpleQuizApp.ViewModels;
 public partial class PlayQuizViewModel : ViewModelBase
 {
     private Random _rnd = new();
-    private int _currentQuestionIdx = 0;
     private Quiz _quiz;
+    private int _currentQuestionIdx = 0;
+    private int _correctAnswers;
 
-    [ObservableProperty] private string _header;
-    [ObservableProperty] private string _title;
-    [ObservableProperty] private ObservableCollection<Question> _questions;
+    public string Header { get; private set; }
+    public string Title { get; }
+    public ObservableCollection<Question> Questions { get; }
 
     [ObservableProperty]
     private ObservableCollection<QuizOptionButtonViewModel> _optionButtons;
-
     [ObservableProperty] private Question _currentQuestion;
-    [ObservableProperty] private int _correctAnswers;
-    [ObservableProperty] private bool _isChecked;
     [ObservableProperty] private string _selectedOption;
-    [ObservableProperty] private bool _isAnswered;
 
     public PlayQuizViewModel(Quiz q, MainWindowViewModel main) : base(main)
     {
@@ -45,12 +42,11 @@ public partial class PlayQuizViewModel : ViewModelBase
     {
         Header = $"Fråga {_currentQuestionIdx + 1}";
 
-        IsChecked = false;
-        IsAnswered = false;
         CurrentQuestion = q ?? Questions[_currentQuestionIdx];
         CurrentQuestion.Options.Add(CurrentQuestion.CorrectOption);
-        
-        List<string> options = CurrentQuestion.Options.OrderBy(_ => _rnd.Next()).ToList();
+
+        List<string> options =
+            CurrentQuestion.Options.OrderBy(_ => _rnd.Next()).ToList();
 
         OptionButtons.Clear();
         for (int i = 0; i < options.Count; i++)
@@ -67,10 +63,8 @@ public partial class PlayQuizViewModel : ViewModelBase
     [RelayCommand]
     public async Task SelectedAnswer()
     {
-        if (CurrentQuestion.IsRightAnswer(SelectedOption)) CorrectAnswers++;
-
-        IsAnswered = true;
-
+        if (CurrentQuestion.IsRightAnswer(SelectedOption)) _correctAnswers++;
+        
         await Task.Delay(1200);
 
         NextQuestion();
@@ -93,6 +87,7 @@ public partial class PlayQuizViewModel : ViewModelBase
 
     public void ShowQuizResult()
     {
-        Main.NavigateTo(new PlayQuizResultViewModel(_quiz, CorrectAnswers, Main));
+        Main.NavigateTo(
+            new PlayQuizResultViewModel(_quiz, _correctAnswers, Main));
     }
 }

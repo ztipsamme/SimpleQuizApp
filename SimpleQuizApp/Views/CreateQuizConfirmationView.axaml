@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleQuizApp.ViewModels"
+             xmlns:components="clr-namespace:SimpleQuizApp.Views.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SimpleQuizApp.Views.CreateQuizConfirmationView"
+             x:DataType="vm:CreateQuizConfirmationViewModel">
+
+    <StackPanel Spacing="20">
+        <TextBlock Text="Skapa Quiz" FontSize="28"
+                   FontWeight="Bold" />
+        <Border BorderThickness="2" BorderBrush="Black" Padding="20"
+                CornerRadius="20" Background="White">
+            <StackPanel Spacing="20">
+                <components:ImageComponent Source="{Binding CoverImageSrc}"
+                                           AspectRatio="3,4" HasImage="{Binding HasCoverImage}"/>
+                <TextBlock FontSize="28"
+                           FontWeight="Bold" HorizontalAlignment="Center">
+                    Ditt Quiz
+                    <Run Text="{Binding Title}" FontWeight="Bold"/>
+                    är sparat!"
+                </TextBlock>
+            </StackPanel>
+        </Border>
+        <components:VariantButton Command="{Binding GoHomeCommand}"
+                                  Content="Till Startsidan"
+                                  Color="Primary"
+                                  Size="Medium"
+                                  HorizontalAlignment="Left" />
+    </StackPanel>
+</UserControl>

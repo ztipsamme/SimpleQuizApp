@@ -76,7 +76,7 @@ public static class FileService
     {
         List<Quiz> quizzes = await ReadJsonFile();
         Quiz? quiz = quizzes.FirstOrDefault(x => x.Id == id);
-        
+
         return quiz;
     }
 
@@ -123,16 +123,16 @@ public static class FileService
 
     public static void SaveImage(string fileName, string tempPath)
     {
-        if (!string.IsNullOrWhiteSpace(fileName) ||
-            !string.IsNullOrWhiteSpace(tempPath))
+        try
         {
-            return;
+            Directory.CreateDirectory(_imagesFolder);
+            string destPath = Path.Combine(_imagesFolder, fileName);
+            File.Copy(tempPath, destPath, overwrite: true);
         }
-
-        Directory.CreateDirectory(_imagesFolder);
-
-        string destPath = Path.Combine(_imagesFolder, fileName);
-        File.Copy(tempPath, destPath, overwrite: true);
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Image save failed: {ex.Message}");
+        }
     }
 
     public static async Task<(Bitmap? src, bool hasImage)> GetImageAsync(

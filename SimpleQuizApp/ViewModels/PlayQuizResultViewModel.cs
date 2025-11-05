@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
 using SimpleQuizApp.Servises;
@@ -9,13 +8,14 @@ namespace SimpleQuizApp.ViewModels;
 
 public partial class PlayQuizResultViewModel : ViewModelBase
 {
-    [ObservableProperty] private Quiz _quiz;
-    [ObservableProperty] private string _message;
-    [ObservableProperty] private int _correctAnswers;
-    [ObservableProperty] private int _wrongAnswers;
-    [ObservableProperty] private Bitmap _coverImageSrc;
-    [ObservableProperty] private bool _hasImage;
-
+    public Quiz Quiz { get; }
+    public string Message { get; }
+    public int CorrectAnswers { get; }
+    public int WrongAnswers { get; }
+    
+    public Bitmap CoverImageSrc { get; private set; }
+    public bool HasImage { get; private set; }
+    
 
     public PlayQuizResultViewModel(Quiz q, int correctAnswers,
         MainWindowViewModel main) : base(main)

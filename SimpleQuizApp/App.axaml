@@ -26,6 +26,10 @@
         <DataTemplate DataType="viewModels:PlayQuizResultViewModel">
             <views:PlayQuizResultView />
         </DataTemplate>
+        
+        <DataTemplate DataType="viewModels:CreateQuizConfirmationViewModel">
+            <views:CreateQuizConfirmationView />
+        </DataTemplate>
 
         <DataTemplate DataType="viewModels:HomeViewModel">
             <views:HomeView />
