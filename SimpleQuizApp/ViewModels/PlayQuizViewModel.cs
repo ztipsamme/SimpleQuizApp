@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
+using SimpleQuizApp.Servises;
 using SimpleQuizApp.ViewModels.Components;
 
 namespace SimpleQuizApp.ViewModels;
@@ -19,10 +21,13 @@ public partial class PlayQuizViewModel : ViewModelBase
 
     public string Header { get; private set; }
     public string Title { get; }
+    
     public ObservableCollection<Question> Questions { get; }
 
     [ObservableProperty]
     private ObservableCollection<QuizOptionButtonViewModel> _optionButtons;
+    [ObservableProperty] private Bitmap _imageSrc;
+    [ObservableProperty] private bool _hasImage;
     [ObservableProperty] private Question _currentQuestion;
     [ObservableProperty] private string _selectedOption;
 
@@ -58,6 +63,15 @@ public partial class PlayQuizViewModel : ViewModelBase
                 Main
             ));
         }
+
+        _ = LoadImageAsync(CurrentQuestion.ImageFileName);
+    }
+    
+    private async Task LoadImageAsync(string imgName)
+    {
+        var (src, hasImage) = await FileService.GetImageAsync(imgName);
+        ImageSrc = src;
+        HasImage = hasImage;
     }
 
     [RelayCommand]

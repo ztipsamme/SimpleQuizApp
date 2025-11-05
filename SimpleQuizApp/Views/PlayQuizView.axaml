@@ -24,6 +24,11 @@
 
                 <Label Content="{Binding CurrentQuestion.Statement}"
                        FontSize="20" FontWeight="Bold" />
+                
+                <components:ImageComponent Source="{Binding ImageSrc}"
+                                           HasImage="{Binding HasImage}"
+                                           AspectRatio="3,4" />
+                
                 <ItemsControl ItemsSource="{Binding OptionButtons}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
