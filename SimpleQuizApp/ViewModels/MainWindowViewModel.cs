@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Services;
@@ -15,7 +16,7 @@ public partial class MainWindowViewModel : ObservableObject
         _ = InitializeAsync();
     }
 
-    private async Task InitializeAsync()
+    public async Task InitializeAsync()
     {
         CurrentView = new LoadingViewModel(this);
         await FileService.InitialiseQuizzes();

@@ -30,6 +30,20 @@ public static class FileService
     private static string _imagesFolder =
         Path.Combine(_appData, "SimpleQuizApp/Images");
 
+    public static async Task AddDefaultQuizzes()
+    {
+        var quizzes = await ReadJsonFile(DefaultQuizzesPath);
+        await WriteJsonFile(quizzes);
+        
+        foreach (var quiz in quizzes)
+        {
+            if (quiz.ImageName != null)
+            {
+                var src = Path.Combine(DefaultImagesPath, quiz.ImageName);
+                SaveImage(quiz.ImageName, src);
+            }
+        }
+    }
 
     public static async Task InitialiseQuizzes()
     {
@@ -39,17 +53,7 @@ public static class FileService
         Directory.CreateDirectory(_jsonFolder);
         Directory.CreateDirectory(_imagesFolder);
 
-        var quizzes = await ReadJsonFile(DefaultQuizzesPath);
-        await WriteJsonFile(quizzes);
-
-        foreach (var quiz in quizzes)
-        {
-            if (quiz.ImageName != null)
-            {
-                var src = Path.Combine(DefaultImagesPath, quiz.ImageName);
-                SaveImage(quiz.ImageName, src);
-            }
-        }
+       await AddDefaultQuizzes();
     }
 
     public static async Task WriteJsonFile(List<Quiz> quizzes)

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Services;
 using SimpleQuizApp.ViewModels.Components;
 
@@ -12,6 +13,7 @@ public partial class HomeViewModel : ViewModelBase
 {
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _hasQuizzes;
+
     [ObservableProperty]
     private ObservableCollection<CategoryGroup> _quizCardGroups =
         new();
@@ -32,12 +34,12 @@ public partial class HomeViewModel : ViewModelBase
         {
             IsLoading = true;
             HasQuizzes = false;
-            
+
             var quizzes =
                 await QuizService.GetQuizzesGroupedByCategoryAsync();
-            
+
             HasQuizzes = quizzes.Any();
-            
+
             var result = new ObservableCollection<CategoryGroup>();
 
             foreach (var categoryGroup in quizzes)
@@ -67,6 +69,17 @@ public partial class HomeViewModel : ViewModelBase
         finally
         {
             IsLoading = false;
+        }
+    }
+
+    [RelayCommand]
+    public async Task RestoreDefaultQuizzes()
+    {
+        if (!HasQuizzes)
+        {
+            Main.CurrentView = new LoadingViewModel(Main);
+            await FileService.AddDefaultQuizzes();
+            Main.CurrentView = new HomeViewModel(Main);
         }
     }
 }

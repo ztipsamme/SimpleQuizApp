@@ -9,22 +9,29 @@
              x:DataType="vm:HomeViewModel">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="5">
+            <TextBlock Text="Hem"  FontWeight="Bold" FontSize="28"/>
             <TextBlock IsVisible="{Binding IsLoading}" Text="Laddar..." />
-            <TextBlock IsVisible="{Binding !HasQuizzes}"
-                       Text="Finns inga Quiz att spela." />
+            <StackPanel IsVisible="{Binding !HasQuizzes}" Spacing="20">
+                <TextBlock
+                    Text="Finns inga Quiz att spela." />
+                <components:VariantButton Color="Primary" Size="Small"
+                                          Content="Återställ standard quiz"
+                                          Command="{Binding RestoreDefaultQuizzesCommand}" 
+                                          HorizontalAlignment="Left"/>
+            </StackPanel>
             <ItemsControl ItemsSource="{Binding QuizCardGroups}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Spacing="40"/>
+                        <StackPanel Spacing="40" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Spacing="10">
-                            <TextBlock Text="{Binding Category}" FontWeight="Bold" FontSize="28"/>
+                            <TextBlock Text="{Binding Category}"
+                                       FontWeight="Bold" FontSize="28" />
                             <ItemsControl ItemsSource="{Binding QuizCard}">
-                                
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3"
