@@ -63,12 +63,8 @@
             <components:VariantButton Content="Lägg till"
                                       Command="{Binding AddQuestionCommand}"
                                       HorizontalAlignment="Left" />
-
             <components:ErrorMessageView
-                IsVisible="{Binding IsAllQuestionFieldsErrorVisible}"
-                Message="{Binding AllQuestionFieldsErrorMessage}" />
-            <components:ErrorMessageView
-                IsVisible="{Binding IsMaxQuestionsVisible}"
+                IsVisible="{Binding IsMaxQuestionsErrorVisible}"
                 Message="{Binding MaxQuestionsErrorMessage}" />
         </StackPanel>
 
@@ -87,12 +83,8 @@
                 Color="Danger"
                 Size="Small" />
         </Grid>
-
         <components:ErrorMessageView
-            IsVisible="{Binding IsMinQuestionsErrorVisible}"
-            Message="{Binding MinQuestionsErrorMessage}" />
-        <components:ErrorMessageView
-            IsVisible="{Binding IsAllFieldsErrorVisible}"
-            Message="{Binding IsValidErrorMessage}" />
+            IsVisible="{Binding QuizErrorVisible}"
+            Message="{Binding QuizErrorMessage}" />
     </StackPanel>
 </UserControl>

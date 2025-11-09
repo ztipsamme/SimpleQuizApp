@@ -7,21 +7,23 @@ namespace SimpleQuizApp.Models;
 public class Question
 {
     public string Statement { get; set; }
+    public string Category { get; set; }
 
     public List<string> Options { get; set; } = new();
 
     public string CorrectOption { get; set; }
 
-    public string ImageFileName { get; set; }
+    public string ImageName { get; set; }
 
     [JsonConstructor]
-    public Question(string statement, string correctOption,
-        List<string> options, string imageFileName)
+    public Question(string statement, string category, string correctOption,
+        List<string> options, string imageName)
     {
         Statement = statement;
+        Category = category;
         CorrectOption = correctOption;
         Options.AddRange(options);
-        ImageFileName = imageFileName;
+        ImageName = imageName;
     }
 
     public bool IsRightAnswer(string answer) => answer.Equals(CorrectOption,

@@ -21,7 +21,7 @@
                        Width="200"
                        IsVisible="{Binding HasImage}" />
             </Border>
-            <TextBlock Text="{Binding ImageFileName}"
+            <TextBlock Text="{Binding ImageName}"
                        IsVisible="{Binding HasImage}" />
         </StackPanel>
 

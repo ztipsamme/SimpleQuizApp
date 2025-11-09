@@ -9,11 +9,11 @@ public partial class QuestionCardViewModel : ObservableObject
     [ObservableProperty]
     private ImageUploadViewModel _questionImageUpload = new();
 
-    public string Statement { get; }
-    public string CorrectOption { get; }
-    public string Option1 { get; }
-    public string Option2 { get; }
-    public string Option3 { get; }
+    [ObservableProperty] private string _statement;
+    [ObservableProperty] private string _correctOption;
+    [ObservableProperty] private string _option1;
+    [ObservableProperty] private string _option2;
+    [ObservableProperty] private string _option3;
 
     [ObservableProperty] private bool _isExpanded;
 
@@ -29,7 +29,7 @@ public partial class QuestionCardViewModel : ObservableObject
         Option1 = options[0];
         Option2 = options[1];
         Option3 = options[2];
-        QuestionImageUpload = new(question.ImageFileName);
+        QuestionImageUpload = new(question.ImageName);
         IsExpanded = false;
         EditCommand = editCommand;
         RemoveCommand = removeCommand;

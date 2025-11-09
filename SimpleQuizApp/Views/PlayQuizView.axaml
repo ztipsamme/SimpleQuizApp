@@ -18,7 +18,7 @@
                 <TextBlock FontWeight="Bold">
                     <Run Text="{Binding Header}" FontSize="24" />
                     <Run Text=" av " Foreground="Gray" FontSize="18" />
-                    <Run Text="{Binding Questions.Count}" Foreground="Gray"
+                    <Run Text="{Binding Count}" Foreground="Gray"
                          FontSize="18" />
                 </TextBlock>
 

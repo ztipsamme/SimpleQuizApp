@@ -9,7 +9,7 @@ using System.Linq;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 
-namespace SimpleQuizApp.Servises;
+namespace SimpleQuizApp.Services;
 
 public static class FileService
 {
@@ -98,7 +98,7 @@ public static class FileService
             existingQuiz.Title = title;
             existingQuiz.Category = category;
             existingQuiz.Description = description;
-            existingQuiz.CoverImageName = coverImageFileName;
+            existingQuiz.ImageName = coverImageFileName;
             existingQuiz.Questions = questions;
 
             await WriteJsonFile(quizzes);
@@ -135,22 +135,22 @@ public static class FileService
         }
     }
 
-    public static async Task<(Bitmap? src, bool hasImage)> GetImageAsync(
-        string? imgName)
+    public static async Task<Bitmap?> GetImageAsync(
+        string? imageName)
     {
-        string path = Path.Combine(_imagesFolder, imgName ?? string.Empty);
+        string path = Path.Combine(_imagesFolder, imageName ?? string.Empty);
 
-        if (string.IsNullOrEmpty(imgName) || !File.Exists(path))
-            return (null, false);
+        if (string.IsNullOrEmpty(imageName) || !File.Exists(path))
+            return null;
 
         try
         {
             var bitmap = await Task.Run(() => new Bitmap(path));
-            return (bitmap, true);
+            return bitmap;
         }
         catch
         {
-            return (null, false);
+            return null;
         }
     }
 }

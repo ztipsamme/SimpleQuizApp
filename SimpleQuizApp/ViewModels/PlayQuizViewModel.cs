@@ -7,101 +7,75 @@ using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
-using SimpleQuizApp.Servises;
+using SimpleQuizApp.Services;
 using SimpleQuizApp.ViewModels.Components;
 
 namespace SimpleQuizApp.ViewModels;
 
 public partial class PlayQuizViewModel : ViewModelBase
 {
-    private Random _rnd = new();
-    private Quiz _quiz;
-    private int _currentQuestionIdx = 0;
-    private int _correctAnswers;
+    private PlayQuizService _session;
 
-    public string Header { get; private set; }
     public string Title { get; }
-    
-    public ObservableCollection<Question> Questions { get; }
-
+    public int Count { get; }
+    [ObservableProperty] private string _header;
     [ObservableProperty]
-    private ObservableCollection<QuizOptionButtonViewModel> _optionButtons;
-    [ObservableProperty] private Bitmap _imageSrc;
+    private ObservableCollection<QuizOptionButtonViewModel> _optionButtons = new();
+
+    [ObservableProperty] private Bitmap? _imageSrc;
     [ObservableProperty] private bool _hasImage;
     [ObservableProperty] private Question _currentQuestion;
     [ObservableProperty] private string _selectedOption;
 
-    public PlayQuizViewModel(Quiz q, MainWindowViewModel main) : base(main)
+    public PlayQuizViewModel(Quiz quiz, MainWindowViewModel main) : base(main)
     {
-        _quiz = q;
-        Title = q.Title;
-        Questions =
-            new ObservableCollection<Question>(q.Questions
-                .OrderBy(_ => _rnd.Next()));
-        OptionButtons = new ObservableCollection<QuizOptionButtonViewModel>();
-
-        InitializeCurrentQuestion(Questions.First());
+        Title = quiz.Title;
+        Count    = quiz.Questions.Count;
+        _session = new PlayQuizService(quiz);
+        LoadCurrentQuestion();
     }
 
-    private void InitializeCurrentQuestion(Question? q = null)
+    private void LoadCurrentQuestion()
     {
-        Header = $"Fråga {_currentQuestionIdx + 1}";
-
-        CurrentQuestion = q ?? Questions[_currentQuestionIdx];
-        CurrentQuestion.Options.Add(CurrentQuestion.CorrectOption);
-
-        List<string> options =
-            CurrentQuestion.Options.OrderBy(_ => _rnd.Next()).ToList();
-
+        CurrentQuestion = _session.CurrentQuestion;
+        Header = $"Fråga {_session.CurrentIndex + 1}";
         OptionButtons.Clear();
-        for (int i = 0; i < options.Count; i++)
+        foreach (var option in _session.GetShuffledOptions())
         {
             OptionButtons.Add(new QuizOptionButtonViewModel(
-                i + 1,
-                CurrentQuestion.Options[i],
+                OptionButtons.Count + 1,
+                option,
                 this,
                 Main
             ));
         }
 
-        _ = LoadImageAsync(CurrentQuestion.ImageFileName);
+        _ = LoadImageAsync(CurrentQuestion.ImageName);
     }
-    
+
     private async Task LoadImageAsync(string imgName)
     {
-        var (src, hasImage) = await FileService.GetImageAsync(imgName);
-        ImageSrc = src;
-        HasImage = hasImage;
+        ImageSrc = await FileService.GetImageAsync(imgName);
+        HasImage = ImageSrc != null;
     }
 
     [RelayCommand]
     public async Task SelectedAnswer()
     {
-        if (CurrentQuestion.IsRightAnswer(SelectedOption)) _correctAnswers++;
-        
+        _session.SubmitAnswer(SelectedOption);
         await Task.Delay(1200);
 
-        NextQuestion();
-    }
-
-    [RelayCommand]
-    public void NextQuestion()
-    {
-        SelectedOption = default;
-
-        if (_currentQuestionIdx == Questions.Count - 1)
+        if (_session.HasMoreQuestions)
         {
-            ShowQuizResult();
-            return;
+            _session.MoveToNextQuestion();
+            LoadCurrentQuestion();
         }
-
-        _currentQuestionIdx++;
-        InitializeCurrentQuestion();
-    }
-
-    public void ShowQuizResult()
-    {
-        Main.NavigateTo(
-            new PlayQuizResultViewModel(_quiz, _correctAnswers, Main));
+        else
+        {
+            // Show Quiz Result
+            Main.NavigateTo(
+                new PlayQuizResultViewModel(_session.Quiz,
+                    _session.CorrectAnswers, Main));
+        }
     }
 }

@@ -5,13 +5,13 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SimpleQuizApp.Servises;
+using SimpleQuizApp.Services;
 
 namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class ImageUploadViewModel : ObservableObject
 {
-    [ObservableProperty] private string _imageFileName;
+    [ObservableProperty] private string _imageName;
     [ObservableProperty] private string _tempImagePath;
     [ObservableProperty] private Bitmap _imageSrc;
     [ObservableProperty] private bool _hasImage;
@@ -20,8 +20,8 @@ public partial class ImageUploadViewModel : ObservableObject
     {
         if (imageFileName != null)
         {
-            ImageFileName = imageFileName;
-            _ = LoadImageAsync(ImageFileName);
+            ImageName = imageFileName;
+            _ = LoadImageAsync(ImageName);
         }
     }
 
@@ -46,8 +46,7 @@ public partial class ImageUploadViewModel : ObservableObject
         if (res is { Length: > 0 })
         {
             TempImagePath = res[0];
-            ImageFileName = Path.GetFileName(res[0]);
-            HasImage = true;
+            ImageName = Path.GetFileName(res[0]);
             await LoadImageAsync(TempImagePath);
         }
     }
@@ -56,24 +55,22 @@ public partial class ImageUploadViewModel : ObservableObject
     public void RemoveImage()
     {
         TempImagePath = null;
-        ImageFileName = null;
+        ImageName = null;
         ImageSrc = null;
         HasImage = false;
     }
 
     public void SaveIfPresent()
     {
-        if (!string.IsNullOrWhiteSpace(ImageFileName) &&
+        if (!string.IsNullOrWhiteSpace(ImageName) &&
             !string.IsNullOrWhiteSpace(TempImagePath))
         {
-            FileService.SaveImage(ImageFileName, TempImagePath);
+            FileService.SaveImage(ImageName, TempImagePath);
         }
     }
 
-    private async Task LoadImageAsync(string imgName)
+    private async Task LoadImageAsync(string imageName)
     {
-        var (src, hasImage) = await FileService.GetImageAsync(imgName);
-        ImageSrc = src;
-        HasImage = hasImage;
-    }
-}
+        ImageSrc = await ImageService.LoadAsync(imageName);
+        HasImage = ImageSrc != null;
+    }}

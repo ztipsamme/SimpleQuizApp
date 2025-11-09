@@ -3,7 +3,7 @@ using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
-using SimpleQuizApp.Servises;
+using SimpleQuizApp.Services;
 
 namespace SimpleQuizApp.ViewModels;
 
@@ -14,7 +14,7 @@ public partial class PlayQuizResultViewModel : ViewModelBase
     public int CorrectAnswers { get; }
     public int WrongAnswers { get; }
     
-    [ObservableProperty] private Bitmap _coverImageSrc;
+    [ObservableProperty] private Bitmap _imageSrc;
     [ObservableProperty] private bool _hasImage;
     
 
@@ -39,14 +39,13 @@ public partial class PlayQuizResultViewModel : ViewModelBase
             _ => "Resultatet kunde inte beräknas."
         };
 
-        _ = LoadImageAsync(q.CoverImageName);
+        _ = LoadImageAsync(q.ImageName);
     }
 
-    private async Task LoadImageAsync(string imgName)
+    private async Task LoadImageAsync(string imageName)
     {
-        var (src, hasImage) = await FileService.GetImageAsync(imgName);
-        CoverImageSrc = src;
-        HasImage = hasImage;
+        ImageSrc = await ImageService.LoadAsync(imageName);
+        HasImage = ImageSrc != null;
     }
 
     [RelayCommand]

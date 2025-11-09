@@ -9,41 +9,30 @@ using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
-using SimpleQuizApp.Servises;
+using SimpleQuizApp.Services;
 
 namespace SimpleQuizApp.ViewModels.Components;
 
 public partial class QuizFormViewModel : ViewModelBase
 {
     private readonly Quiz? _quiz;
-
-    [ObservableProperty] private ImageUploadViewModel _coverImageUpload = new();
     [ObservableProperty] private string _viewHeader;
     [ObservableProperty] private string _viewDescription;
     [ObservableProperty] private string _title;
     [ObservableProperty] private string _category;
     [ObservableProperty] private string _description;
+    [ObservableProperty] private ImageUploadViewModel _coverImageUpload;
+    [ObservableProperty] private string _maxQuestionsErrorMessage;
+    [ObservableProperty] private string _quizErrorMessage;
+    [ObservableProperty] private string _questionsErrorMessage;
 
     [ObservableProperty]
     private ObservableCollection<QuestionCardViewModel> _questionCards =
         new();
 
-    [ObservableProperty] private string _isValidErrorMessage =
-        "Måste fylla i alla obligatoriska fält";
-
-    [ObservableProperty] private string _allQuestionFieldsErrorMessage =
-        "Måste fylla i alla obligatoriska frågefält";
-
-    [ObservableProperty]
-    private string _maxQuestionsErrorMessage = "Max 10 frågor";
-
-    [ObservableProperty]
-    private string _minQuestionsErrorMessage = "Måste finnas minst 3 frågor";
-
-    [ObservableProperty] private bool _isAllFieldsErrorVisible;
-    [ObservableProperty] private bool _isAllQuestionFieldsErrorVisible;
-    [ObservableProperty] private bool _isMaxQuestionsVisible;
-    [ObservableProperty] private bool _isMinQuestionsErrorVisible;
+    [ObservableProperty] private bool _quizErrorVisible;
+    [ObservableProperty] private bool _isMaxQuestionsErrorVisible;
+    [ObservableProperty] private bool _isQuestionsErrorVisible;
 
     public QuizFormViewModel(MainWindowViewModel main, Quiz? q = null) :
         base(main)
@@ -66,7 +55,7 @@ public partial class QuizFormViewModel : ViewModelBase
                 QuestionCards.Add(qCard);
             }
 
-            CoverImageUpload = new(q.CoverImageName);
+            CoverImageUpload = new(q.ImageName);
         }
         else
         {
@@ -76,6 +65,7 @@ public partial class QuizFormViewModel : ViewModelBase
                 new QuestionCardViewModel(EditQuestionCommand,
                     RemoveQuestionCommand);
             QuestionCards.Add(childVm);
+            CoverImageUpload = new();
         }
 
         ViewDescription = (q != null ? "Redigera" : "Skapa") +
@@ -85,11 +75,14 @@ public partial class QuizFormViewModel : ViewModelBase
     [RelayCommand]
     public async Task AddQuestion()
     {
-        if (QuestionCards.Count == 10)
+        MaxQuestionsErrorMessage =
+            ManageQuizService.HasMaxQuestionsMessage(QuestionCards);
+        
+        if (!string.IsNullOrWhiteSpace(MaxQuestionsErrorMessage))
         {
-            await ShowErrorTemporarilyAsync(
-                () => IsMaxQuestionsVisible = true,
-                () => IsMaxQuestionsVisible = false);
+            IsMaxQuestionsErrorVisible = true;
+            await Task.Delay(1200);
+            IsMaxQuestionsErrorVisible = false;
             return;
         }
 
@@ -98,7 +91,8 @@ public partial class QuizFormViewModel : ViewModelBase
             questionCard.IsExpanded = false;
         }
 
-        QuestionCards.Add(new QuestionCardViewModel(EditQuestionCommand,
+        QuestionCards.Add(new QuestionCardViewModel(
+            EditQuestionCommand,
             RemoveQuestionCommand));
     }
 
@@ -120,64 +114,53 @@ public partial class QuizFormViewModel : ViewModelBase
     [RelayCommand]
     public async Task SaveQuiz()
     {
-        if (QuestionCards.Count < 3)
+        QuizErrorMessage =
+            ManageQuizService.QuizErrorMessage(Title, QuestionCards);
+        
+        if (!string.IsNullOrWhiteSpace(QuizErrorMessage))
         {
-            await ShowErrorTemporarilyAsync(
-                () => IsMinQuestionsErrorVisible = true,
-                () => IsMinQuestionsErrorVisible = false);
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(Title))
-        {
-            await ShowErrorTemporarilyAsync(
-                () => IsAllFieldsErrorVisible = true,
-                () => IsAllFieldsErrorVisible = false);
+            QuizErrorVisible = true;
+            await Task.Delay(1200);
+            QuizErrorVisible = false;
             return;
         }
 
         CoverImageUpload.SaveIfPresent();
-        var coverImageFileName = CoverImageUpload.ImageFileName;
+        var coverImageName = CoverImageUpload.ImageName;
 
-        foreach (var q in QuestionCards)
+
+        var questions =
+            ManageQuizService.MapToQuestions(QuestionCards, Category);
+
+        bool updateQuiz =
+            _quiz != null && await FileService.QuizExists(_quiz.Id);
+
+        if (updateQuiz)
         {
-            string[] question =
-                [q.Statement, q.CorrectOption, q.Option1, q.Option2, q.Option3];
-
-            foreach (string s in question)
-            {
-                if (string.IsNullOrWhiteSpace(s))
-                {
-                    await ShowErrorTemporarilyAsync(
-                        () => IsAllFieldsErrorVisible = true,
-                        () => IsAllFieldsErrorVisible = false);
-                    return;
-                }
-            }
-
-            q.QuestionImageUpload.SaveIfPresent();
-        }
-
-        var questions = QuestionCards.Select(q => new Question(q.Statement,
-            q.CorrectOption,
-            new List<string>() { q.Option1, q.Option2, q.Option3 },
-            q.QuestionImageUpload.ImageFileName)
-        ).ToList();
-
-        if (_quiz != null && await FileService.QuizExists(_quiz.Id))
-        {
-            await FileService.UpdateJsonFile(_quiz.Id, Title, Category,
+            var updatedQuiz = await ManageQuizService.UpdateQuiz(
+                _quiz.Id,
+                Title,
+                Category,
                 Description,
-                coverImageFileName, questions);
-            Main.NavigateTo(new QuizViewModel(_quiz.Id, Main));
+                coverImageName,
+                questions);
+
+            if (updatedQuiz != null)
+                Main.NavigateTo(new QuizViewModel(updatedQuiz, Main));
         }
         else
         {
-            await FileService.WriteJsonFile(new Quiz(Title, Category,
+            await ManageQuizService.SaveQuizAsync(
+                Title,
+                Category,
                 Description,
-                coverImageFileName,
-                questions));
-            Main.NavigateTo(new CreateQuizConfirmationViewModel(Title, CoverImageUpload.ImageSrc, Main));
+                coverImageName,
+                questions);
+
+            Main.NavigateTo(new CreateQuizConfirmationViewModel(
+                Title,
+                CoverImageUpload.ImageSrc,
+                Main));
         }
     }
 
@@ -189,13 +172,5 @@ public partial class QuizFormViewModel : ViewModelBase
         await FileService.DeleteFromJsonFile(_quiz.Id);
 
         Main.NavigateTo(new HomeViewModel(Main));
-    }
-
-    private async Task ShowErrorTemporarilyAsync(Action showAction,
-        Action hideAction)
-    {
-        showAction();
-        await Task.Delay(1200);
-        hideAction();
     }
 }

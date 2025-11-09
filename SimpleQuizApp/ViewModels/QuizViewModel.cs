@@ -4,56 +4,51 @@ using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleQuizApp.Models;
-using SimpleQuizApp.Servises;
+using SimpleQuizApp.Services;
 
 namespace SimpleQuizApp.ViewModels;
 
 public partial class QuizViewModel : ViewModelBase
 {
-    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] private Quiz _quiz;
     [ObservableProperty] private bool _hasQuiz;
-    [ObservableProperty] private string _title;
-    [ObservableProperty] private string _description;
-    [ObservableProperty] private string? _coverImageName;
-    [ObservableProperty] private Bitmap _coverImageSrc;
+    [ObservableProperty] private Bitmap? _imageSrc;
     [ObservableProperty] private bool _hasImage;
-    private Quiz _quiz;
 
-    public QuizViewModel(Guid id, MainWindowViewModel main) : base(main)
+    public QuizViewModel(Quiz q, MainWindowViewModel main) : base(main)
     {
-        _ = LoadQuiz(id);
+        Quiz = q;
+        HasQuiz = q != null;
+        _ = LoadImageAsync(q.ImageName);
     }
 
-    private async Task LoadQuiz(Guid id) {
-        var quiz = await FileService.GetQuiz(id);
-        
+    private async Task LoadQuiz(Guid id)
+    {
+        var quiz = await QuizService.LoadQuizAsync(id);
+
         if (quiz == null) return;
-        
+
         HasQuiz = true;
-        _quiz = quiz;
-        Title = quiz.Title;
-        Description = quiz.Description;
-        CoverImageName = quiz.CoverImageName;
-        
-        _ = LoadImageAsync(CoverImageName);
+        Quiz = quiz;
+
+        _ = LoadImageAsync(quiz.ImageName);
     }
     
-    private async Task LoadImageAsync(string imgName)
+    private async Task LoadImageAsync(string imageName)
     {
-        var (src, hasImage) = await FileService.GetImageAsync(imgName);
-        CoverImageSrc = src;
-        HasImage = hasImage;
+        ImageSrc = await ImageService.LoadAsync(imageName);
+        HasImage = ImageSrc != null;
     }
-
+    
     [RelayCommand]
     public void StartQuiz()
     {
-        Main.NavigateTo(new PlayQuizViewModel(_quiz, Main));
+        Main.NavigateTo(new PlayQuizViewModel(Quiz, Main));
     }
 
     [RelayCommand]
     public void EditQuiz()
     {
-        Main.NavigateTo(new EditQuizViewModel(_quiz, Main));
+        Main.NavigateTo(new EditQuizViewModel(Quiz, Main));
     }
 }

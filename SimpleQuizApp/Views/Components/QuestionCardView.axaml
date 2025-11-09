@@ -32,7 +32,7 @@
                     
                     <TextBlock>
                         <Run FontWeight="Bold" Text="Bild: " />
-                        <Run Text="{Binding QuestionImageUpload.ImageFileName}" />
+                        <Run Text="{Binding QuestionImageUpload.ImageName}" />
                     </TextBlock>
 
                     <TextBlock>

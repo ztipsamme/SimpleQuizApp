@@ -10,16 +10,16 @@ public class Quiz
     public string Title { get; set; }
     public string Category { get; set; }
     public string Description { get; set; }
-    public string CoverImageName { get; set; }
+    public string ImageName { get; set; }
     public List<Question> Questions { get; set; }
 
-    public Quiz(string title, string category, string description, string coverImageName,
+    public Quiz(string title, string category, string description, string imageName,
         List<Question> questions)
     {
         Title = title;
         Category = category;
         Description = description;
-        CoverImageName = coverImageName;
+        ImageName = imageName;
         Questions = questions;
     }
 }

@@ -13,7 +13,7 @@
         <Border BorderThickness="2" BorderBrush="Black" Padding="20"
                 CornerRadius="20" Background="White">
             <StackPanel Spacing="20">
-                <components:ImageComponent Source="{Binding CoverImageSrc}"
+                <components:ImageComponent Source="{Binding ImageSrc}"
                                            HasImage="{Binding HasImage}"
                                            AspectRatio="3,4" />
                 <TextBlock Text="{Binding Message}" FontSize="28"
