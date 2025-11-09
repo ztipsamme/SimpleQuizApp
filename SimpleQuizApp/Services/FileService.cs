@@ -41,11 +41,14 @@ public static class FileService
 
         var quizzes = await ReadJsonFile(DefaultQuizzesPath);
         await WriteJsonFile(quizzes);
-        
+
         foreach (var quiz in quizzes)
         {
-            var src = Path.Combine(DefaultImagesPath, quiz.ImageName);
-            SaveImage(quiz.ImageName, src);
+            if (quiz.ImageName != null)
+            {
+                var src = Path.Combine(DefaultImagesPath, quiz.ImageName);
+                SaveImage(quiz.ImageName, src);
+            }
         }
     }
 
@@ -160,7 +163,7 @@ public static class FileService
 
         if (string.IsNullOrEmpty(imageName) || !File.Exists(path))
             return null;
-        
+
         try
         {
             var bitmap = await Task.Run(() => new Bitmap(path));

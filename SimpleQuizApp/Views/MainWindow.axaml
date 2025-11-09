@@ -17,9 +17,10 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="2*, 8*" Background="hsla(35, 46%, 91%, 1)">
-        <Border BorderThickness="0,0,2,0" BorderBrush="Black" Padding="20,30" Background="White">
-            <Grid RowDefinitions="Auto, *, Auto"  RowSpacing="50" >
-                <TextBlock Text="QuizApp" FontSize="28" FontWeight="Bold"/>
+        <Border BorderThickness="0,0,2,0" BorderBrush="Black" Padding="20,30"
+                Background="White">
+            <Grid RowDefinitions="Auto, *, Auto" RowSpacing="50">
+                <TextBlock Text="QuizApp" FontSize="28" FontWeight="Bold" />
                 <StackPanel Grid.Row="1" Spacing="20">
                     <components:VariantButton Content="Hem"
                                               Command="{Binding HomeViewCommand}"
@@ -34,7 +35,8 @@
         </Border>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
             <ContentControl Content="{Binding CurrentView}"
-                            Padding="40,30" />
+                            Padding="40,30" Width="900"
+                            HorizontalAlignment="Center" />
         </ScrollViewer>
     </Grid>
 </Window>
