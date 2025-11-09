@@ -34,6 +34,10 @@
         <DataTemplate DataType="viewModels:HomeViewModel">
             <views:HomeView />
         </DataTemplate>
+        
+        <DataTemplate DataType="viewModels:LoadingViewModel">
+            <views:LoadingView />
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>

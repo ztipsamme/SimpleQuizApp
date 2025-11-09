@@ -15,7 +15,11 @@ public static class FileService
         Environment.GetFolderPath(Environment.SpecialFolder
             .LocalApplicationData);
 
-    private static readonly string DefaultPath = "./Data/defaultQuizzes.json";
+    private static readonly string DefaultQuizzesPath =
+        Path.Combine(AppContext.BaseDirectory, "Data", "defaultQuizzes.json");
+
+    private static readonly string DefaultImagesPath =
+        Path.Combine(AppContext.BaseDirectory, "Assets", "DefaultQuizImages");
 
     private static string _jsonFolder =
         Path.Combine(_appData, "SimpleQuizApp/Json");
@@ -29,12 +33,20 @@ public static class FileService
 
     public static async Task InitialiseQuizzes()
     {
-        if (Directory.Exists(_jsonFolder)) return;
+        bool hasData = File.Exists(_quizzesFile);
+        if (hasData) return;
 
         Directory.CreateDirectory(_jsonFolder);
+        Directory.CreateDirectory(_imagesFolder);
 
-        var quizzes = await ReadJsonFile(DefaultPath);
+        var quizzes = await ReadJsonFile(DefaultQuizzesPath);
         await WriteJsonFile(quizzes);
+        
+        foreach (var quiz in quizzes)
+        {
+            var src = Path.Combine(DefaultImagesPath, quiz.ImageName);
+            SaveImage(quiz.ImageName, src);
+        }
     }
 
     public static async Task WriteJsonFile(List<Quiz> quizzes)
@@ -132,7 +144,6 @@ public static class FileService
     {
         try
         {
-            Directory.CreateDirectory(_imagesFolder);
             string destPath = Path.Combine(_imagesFolder, fileName);
             File.Copy(tempPath, destPath, overwrite: true);
         }
@@ -149,7 +160,7 @@ public static class FileService
 
         if (string.IsNullOrEmpty(imageName) || !File.Exists(path))
             return null;
-
+        
         try
         {
             var bitmap = await Task.Run(() => new Bitmap(path));

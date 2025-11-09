@@ -24,6 +24,7 @@
                         <StackPanel Spacing="10">
                             <TextBlock Text="{Binding Category}" FontWeight="Bold" FontSize="28"/>
                             <ItemsControl ItemsSource="{Binding QuizCard}">
+                                
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3"

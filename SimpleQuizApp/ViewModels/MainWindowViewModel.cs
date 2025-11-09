@@ -17,6 +17,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     private async Task InitializeAsync()
     {
+        CurrentView = new LoadingViewModel(this);
         await FileService.InitialiseQuizzes();
         CurrentView = new HomeViewModel(this);
     }
