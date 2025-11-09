@@ -53,9 +53,9 @@ public class QuizService
         int count = randomQuestions.Count;
 
         Quiz quiz = new(
-            $"{count} frågor om {category}",
+            $"{count}st random frågor om {category}",
             category,
-            $"{count} random frågor att besvara ur kategorin {category}.", default,
+            $"{count}st random frågor att besvara ur kategorin {category}.", default,
             randomQuestions
         );
 

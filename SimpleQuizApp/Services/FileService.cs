@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using SimpleQuizApp.Models;
-using System.IO;
-using System.Linq;
 using Avalonia.Media.Imaging;
-using Avalonia.Threading;
+using SimpleQuizApp.Models;
 
 namespace SimpleQuizApp.Services;
 
@@ -17,26 +15,33 @@ public static class FileService
         Environment.GetFolderPath(Environment.SpecialFolder
             .LocalApplicationData);
 
+    private static readonly string DefaultPath = "./Data/defaultQuizzes.json";
 
-    private static string _JsonFolder =
+    private static string _jsonFolder =
         Path.Combine(_appData, "SimpleQuizApp/Json");
 
-    private static string _QuizzesFile =
-        Path.Combine(_JsonFolder, "Quizzes.json");
+    private static string _quizzesFile =
+        Path.Combine(_jsonFolder, "Quizzes.json");
 
     private static string _imagesFolder =
-        Path.Combine(_appData, "SimpleQuizApp/Assets/QuizImages");
+        Path.Combine(_appData, "SimpleQuizApp/Images");
+
+
+    public static async Task InitialiseQuizzes()
+    {
+        if (Directory.Exists(_jsonFolder)) return;
+
+        Directory.CreateDirectory(_jsonFolder);
+
+        var quizzes = await ReadJsonFile(DefaultPath);
+        await WriteJsonFile(quizzes);
+    }
 
     public static async Task WriteJsonFile(List<Quiz> quizzes)
     {
-        if (!Directory.Exists(_JsonFolder))
-        {
-            Directory.CreateDirectory(_JsonFolder);
-        }
-
         string json = JsonSerializer.Serialize(quizzes,
             new JsonSerializerOptions { WriteIndented = true });
-        await File.WriteAllTextAsync(_QuizzesFile, json);
+        await File.WriteAllTextAsync(_quizzesFile, json);
     }
 
 
@@ -44,7 +49,7 @@ public static class FileService
     {
         List<Quiz> quizzes = new();
 
-        if (File.Exists(_QuizzesFile))
+        if (File.Exists(_quizzesFile))
         {
             quizzes = await ReadJsonFile();
         }
@@ -54,12 +59,14 @@ public static class FileService
     }
 
 
-    public static async Task<List<Quiz>> ReadJsonFile()
+    public static async Task<List<Quiz>> ReadJsonFile(string? file = null)
     {
-        if (!File.Exists(_QuizzesFile))
+        file = file ?? _quizzesFile;
+
+        if (!File.Exists(file))
             return new List<Quiz>();
 
-        string json = await File.ReadAllTextAsync(_QuizzesFile);
+        string json = await File.ReadAllTextAsync(file);
         var quizzes = JsonSerializer.Deserialize<List<Quiz>>(json) ??
                       new List<Quiz>();
         return quizzes;

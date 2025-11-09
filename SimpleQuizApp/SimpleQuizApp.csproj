@@ -23,5 +23,12 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
+            <None Update="Data/defaultQquizzes.json">
+                <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Assets\DefaultQuizImages\"/>
     </ItemGroup>
 </Project>

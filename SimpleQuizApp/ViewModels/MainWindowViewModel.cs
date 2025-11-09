@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SimpleQuizApp.Services;
 
 namespace SimpleQuizApp.ViewModels;
 
@@ -10,6 +12,12 @@ public partial class MainWindowViewModel : ObservableObject
 
     public MainWindowViewModel()
     {
+        _ = InitializeAsync();
+    }
+
+    private async Task InitializeAsync()
+    {
+        await FileService.InitialiseQuizzes();
         CurrentView = new HomeViewModel(this);
     }
 

@@ -32,11 +32,12 @@ public partial class HomeViewModel : ViewModelBase
         {
             IsLoading = true;
             HasQuizzes = false;
-
+            
             var quizzes =
                 await QuizService.GetQuizzesGroupedByCategoryAsync();
+            
             HasQuizzes = quizzes.Any();
-
+            
             var result = new ObservableCollection<CategoryGroup>();
 
             foreach (var categoryGroup in quizzes)
